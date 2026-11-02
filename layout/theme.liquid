@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <!-- Canonical -->
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Theme CSS -->
+  {{ 'dk-theme.css' | asset_url | stylesheet_tag }}
+
+  <!-- Shopify required -->
+  {{ content_for_header }}
+</head>
+
+<body class="dk-body template-{{ template.name | handle }}{% if customer %} customer-logged-in{% endif %}">
+
+  <!-- Skip to content -->
+  <a class="dk-skip-link" href="#MainContent">Skip to content</a>
+
+  <!-- Announcement Bar -->
+  {%- if settings.announcement_bar_enabled -%}
+    {% render 'announcement-bar' %}
+  {%- endif -%}
+
+  <!-- Header -->
+  {% render 'header' %}
+
+  <!-- Cart Drawer -->
+  {% render 'cart-drawer' %}
+
+  <!-- Main Content -->
+  <main id="MainContent" class="dk-main" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  <!-- Footer -->
+  {% render 'footer' %}
+
+  <!-- Back to Top + Toast -->
+  <button id="dk-top" aria-label="Back to top" title="Back to top">
+    <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+  </button>
+
+  <div id="dk-toast" role="alert" aria-live="polite">
+    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+    <span id="dk-toast-msg">Added to cart!</span>
+  </div>
+
+  <!-- Theme JS -->
+  {{ 'dk-theme.js' | asset_url | script_tag }}
+
+</body>
+</html>
