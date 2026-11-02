@@ -1,0 +1,166 @@
+<!-- ================================================ -->
+<!-- BLOG LIST TEMPLATE                             -->
+<!-- ================================================ -->
+{%- assign current_blog = blog -%}
+
+<!-- Hero -->
+<section class="dk-blog-hero" aria-labelledby="dk-blog-heading">
+  <div class="dk-container">
+    <nav class="dk-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}" class="dk-breadcrumb__link">Home</a>
+      <span class="dk-breadcrumb__sep" aria-hidden="true">/</span>
+      <span class="dk-breadcrumb__current" aria-current="page">Blog</span>
+    </nav>
+    <h1 class="dk-blog-hero__heading" id="dk-blog-heading">
+      Resources &amp; <span class="dk-text-highlight">Insights</span>
+    </h1>
+    <p class="dk-blog-hero__sub">Expert guides, industry tips, and acrylic display inspiration for your business.</p>
+  </div>
+</section>
+
+<!-- Blog Grid -->
+<div class="dk-blog-page dk-container">
+
+  <!-- Topic Filters -->
+  <div class="dk-blog-topics" role="navigation" aria-label="Blog topics">
+    <a href="{{ blog.url }}" class="dk-topic-pill {% unless current_tags %}dk-topic-pill--active{% endunless %}">All</a>
+    <a href="{{ blog.url }}/tagged/guides" class="dk-topic-pill {% if current_tags contains 'guides' %}dk-topic-pill--active{% endif %}">
+      <i class="fa-solid fa-book-open" aria-hidden="true"></i> Guides
+    </a>
+    <a href="{{ blog.url }}/tagged/tips" class="dk-topic-pill {% if current_tags contains 'tips' %}dk-topic-pill--active{% endif %}">
+      <i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Tips
+    </a>
+    <a href="{{ blog.url }}/tagged/hospitality" class="dk-topic-pill {% if current_tags contains 'hospitality' %}dk-topic-pill--active{% endif %}">
+      <i class="fa-solid fa-hotel" aria-hidden="true"></i> Hospitality
+    </a>
+    <a href="{{ blog.url }}/tagged/retail" class="dk-topic-pill {% if current_tags contains 'retail' %}dk-topic-pill--active{% endif %}">
+      <i class="fa-solid fa-store" aria-hidden="true"></i> Retail
+    </a>
+    <a href="{{ blog.url }}/tagged/product-news" class="dk-topic-pill {% if current_tags contains 'product-news' %}dk-topic-pill--active{% endif %}">
+      <i class="fa-solid fa-newspaper" aria-hidden="true"></i> Product News
+    </a>
+  </div>
+
+  {%- paginate blog.articles by 9 -%}
+
+  {%- if blog.articles.size > 0 -%}
+    <div class="dk-blog-grid">
+      {%- for article in blog.articles -%}
+        <article class="dk-blog-card" aria-labelledby="article-title-{{ article.id }}">
+
+          <!-- Image -->
+          <a href="{{ article.url }}" class="dk-blog-card__img-link" tabindex="-1" aria-hidden="true">
+            <div class="dk-blog-card__img-wrap">
+              {%- if article.image -%}
+                <img
+                  src="{{ article.image | image_url: width: 700 }}"
+                  alt="{{ article.image.alt | default: article.title | escape }}"
+                  class="dk-blog-card__img"
+                  width="700"
+                  height="400"
+                  loading="lazy"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'dk-blog-card__img dk-blog-card__img--placeholder' }}
+              {%- endif -%}
+              {%- if article.tags.size > 0 -%}
+                <span class="dk-blog-card__tag">{{ article.tags.first | capitalize }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+
+          <!-- Body -->
+          <div class="dk-blog-card__body">
+            <div class="dk-blog-card__meta">
+              <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> {{ article.published_at | date: '%d/%m/%Y' }}</span>
+              <span class="dk-blog-card__sep" aria-hidden="true">|</span>
+              <span><i class="fa-regular fa-clock" aria-hidden="true"></i> {{ article.content | strip_html | split: ' ' | size | divided_by: 200 | plus: 1 }} min read</span>
+            </div>
+            <h2 class="dk-blog-card__title" id="article-title-{{ article.id }}">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h2>
+            <p class="dk-blog-card__excerpt">{{ article.excerpt | strip_html | truncate: 200 }}</p>
+            <div class="dk-blog-card__foot">
+              <div class="dk-blog-card__author">
+                <span class="dk-author-avatar" aria-hidden="true">{{ article.author | slice: 0, 1 | upcase }}</span>
+                {{ article.author }}
+              </div>
+              <a href="{{ article.url }}" class="dk-blog-card__read-more" aria-label="Read {{ article.title | escape }}">
+                Read article <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="dk-pagination" aria-label="Blog pagination">
+        <div class="dk-pagination__inner">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="dk-pagination__btn dk-pagination__btn--prev" aria-label="Previous page">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" class="dk-pagination__btn">{{ part.title }}</a>
+            {%- elsif part.title == paginate.current_page -%}
+              <span class="dk-pagination__btn dk-pagination__btn--current" aria-current="page">{{ part.title }}</span>
+            {%- else -%}
+              <span class="dk-pagination__ellipsis">&hellip;</span>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="dk-pagination__btn dk-pagination__btn--next" aria-label="Next page">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </a>
+          {%- endif -%}
+        </div>
+      </nav>
+    {%- endif -%}
+
+  {%- else -%}
+    <div class="dk-empty-state">
+      <i class="fa-solid fa-newspaper dk-empty-state__icon" aria-hidden="true"></i>
+      <h2>No articles yet</h2>
+      <p>Check back soon for guides, tips, and display inspiration.</p>
+    </div>
+  {%- endif -%}
+
+  {%- endpaginate -%}
+</div>
+
+<style>
+/* Blog specific styles */
+.dk-blog-hero { background: var(--dk-ink); color: #fff; padding: 48px 0 64px; background-image: radial-gradient(500px 260px at 100% 0, rgba(245,158,11,.2), transparent 70%); }
+.dk-blog-hero__heading { font-size: clamp(1.8rem, 4.5vw, 3rem); margin: 16px 0 12px; }
+.dk-blog-hero__sub { font-size: 15px; color: #d4d4d4; max-width: 560px; }
+.dk-blog-page { padding: 40px 0 80px; }
+.dk-blog-topics { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+.dk-topic-pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 999px; border: 1.5px solid var(--dk-border); font-size: 13px; font-weight: 600; color: #525252; transition: all .2s var(--dk-ease); background: #fff; }
+.dk-topic-pill:hover { border-color: var(--dk-amber); color: var(--dk-ink); background: #fef7ee; }
+.dk-topic-pill--active { background: var(--dk-ink); color: #fff; border-color: var(--dk-ink); }
+.dk-blog-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 24px; }
+@media (min-width: 640px) { .dk-blog-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .dk-blog-grid { grid-template-columns: repeat(3, 1fr); } }
+.dk-blog-card { background: #fff; border: 1px solid var(--dk-border); border-radius: 20px; overflow: hidden; box-shadow: var(--dk-shadow); transition: transform .35s var(--dk-ease), box-shadow .35s, border-color .3s; display: flex; flex-direction: column; }
+.dk-blog-card:hover { transform: translateY(-6px); box-shadow: 0 20px 36px -16px rgba(245,158,11,.3); border-color: var(--dk-amber); }
+.dk-blog-card__img-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #f5f5f4; }
+.dk-blog-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--dk-ease); }
+.dk-blog-card:hover .dk-blog-card__img { transform: scale(1.06); }
+.dk-blog-card__tag { position: absolute; top: 12px; left: 12px; background: var(--dk-amber); color: var(--dk-ink); font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; z-index: 2; }
+.dk-blog-card__body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.dk-blog-card__meta { font-size: 11.5px; color: #a3a3a3; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.dk-blog-card__sep { color: #d4d4d4; }
+.dk-blog-card__title { font-size: 15px; font-weight: 800; line-height: 1.4; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.dk-blog-card__title a { transition: color .2s; }
+.dk-blog-card__title a:hover { color: var(--dk-red); }
+.dk-blog-card__excerpt { font-size: 13px; color: #525252; line-height: 1.7; flex: 1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px; }
+.dk-blog-card__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--dk-border); }
+.dk-blog-card__author { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: #525252; }
+.dk-author-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--dk-amber), var(--dk-red)); color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+.dk-blog-card__read-more { font-size: 13px; font-weight: 700; color: var(--dk-red); display: flex; align-items: center; gap: 6px; transition: gap .2s, color .2s; }
+.dk-blog-card__read-more:hover { gap: 10px; color: var(--dk-ink); }
+</style>

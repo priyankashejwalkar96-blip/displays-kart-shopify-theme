@@ -1,0 +1,184 @@
+<!-- ================================================ -->
+<!-- COLLECTION PAGE TEMPLATE                       -->
+<!-- ================================================ -->
+
+{%- assign current_collection = collection -%}
+{%- assign total_products = collection.products_count -%}
+
+<!-- Collection Hero -->
+<div class="dk-collection-hero">
+  <div class="dk-container">
+    <!-- Breadcrumb -->
+    <nav class="dk-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}" class="dk-breadcrumb__link">Home</a>
+      <span class="dk-breadcrumb__sep" aria-hidden="true">/</span>
+      <a href="{{ routes.collections_url }}" class="dk-breadcrumb__link">Collections</a>
+      <span class="dk-breadcrumb__sep" aria-hidden="true">/</span>
+      <span class="dk-breadcrumb__current" aria-current="page">{{ collection.title }}</span>
+    </nav>
+
+    <div class="dk-collection-hero__content">
+      <h1 class="dk-collection-hero__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="dk-collection-hero__desc">{{ collection.description }}</div>
+      {%- endif -%}
+      <p class="dk-collection-hero__count">{{ total_products }} product{{ total_products | pluralize: '', 's' }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Main Shop Layout -->
+<div class="dk-shop" id="dk-shop">
+  <div class="dk-container">
+    <div class="dk-shop__layout">
+
+      <!-- Sidebar / Filters -->
+      <aside class="dk-shop__sidebar" id="dk-sidebar" aria-label="Product filters">
+
+        <!-- Mobile filter toggle (shown on small screens) -->
+        <div class="dk-sidebar__header">
+          <h2 class="dk-sidebar__title">Filters</h2>
+          <button class="dk-sidebar__close" id="dk-sidebar-close" aria-label="Close filters">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Filter by Availability -->
+        <div class="dk-sidebar__section">
+          <h3 class="dk-sidebar__section-title">Availability</h3>
+          <label class="dk-checkbox-label">
+            <input type="checkbox" class="dk-filter-check" data-filter="available" aria-label="In stock">
+            <span>In Stock</span>
+          </label>
+          <label class="dk-checkbox-label">
+            <input type="checkbox" class="dk-filter-check" data-filter="sold_out" aria-label="Sold out">
+            <span>Sold Out</span>
+          </label>
+        </div>
+
+        <!-- Filter by Price -->
+        <div class="dk-sidebar__section">
+          <h3 class="dk-sidebar__section-title">Price Range</h3>
+          <div class="dk-price-range">
+            <label>
+              <span class="dk-sr-only">Min price</span>
+              <input type="number" id="price-min" placeholder="Min &#8377;" class="dk-price-range__input" min="0" aria-label="Minimum price">
+            </label>
+            <span class="dk-price-range__to">to</span>
+            <label>
+              <span class="dk-sr-only">Max price</span>
+              <input type="number" id="price-max" placeholder="Max &#8377;" class="dk-price-range__input" min="0" aria-label="Maximum price">
+            </label>
+          </div>
+          <button class="dk-btn dk-btn--sm dk-btn--outline dk-price-range__apply" id="dk-price-apply">Apply</button>
+        </div>
+
+        <!-- Collections list -->
+        <div class="dk-sidebar__section">
+          <h3 class="dk-sidebar__section-title">Collections</h3>
+          <ul class="dk-sidebar__collection-links" role="list">
+            {%- for c in collections -%}
+              {%- unless c.handle == 'all' -%}
+                <li>
+                  <a
+                    href="{{ c.url }}"
+                    class="dk-sidebar__collection-link{% if c.handle == collection.handle %} dk-sidebar__collection-link--active{% endif %}"
+                    aria-current="{% if c.handle == collection.handle %}page{% endif %}"
+                  >
+                    {{ c.title }}
+                    <span class="dk-sidebar__collection-count">({{ c.products_count }})</span>
+                  </a>
+                </li>
+              {%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+
+      </aside><!-- /.dk-shop__sidebar -->
+
+      <!-- Products Area -->
+      <div class="dk-shop__main">
+
+        <!-- Toolbar -->
+        <div class="dk-shop-toolbar">
+          <button class="dk-btn dk-btn--outline dk-shop-toolbar__filter-toggle" id="dk-filter-toggle" aria-expanded="false" aria-controls="dk-sidebar">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i> Filters
+          </button>
+
+          <p class="dk-shop-toolbar__count">
+            Showing {{ collection.products.size }} of {{ total_products }} products
+          </p>
+
+          <div class="dk-shop-toolbar__right">
+            <!-- Sort -->
+            <label class="dk-sr-only" for="dk-sort">Sort by</label>
+            <select class="dk-sort-select" id="dk-sort" onchange="location.href='?sort_by=' + this.value" aria-label="Sort products">
+              <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>Featured</option>
+              <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+              <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+              <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+              <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>A &ndash; Z</option>
+              <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+            </select>
+
+            <!-- View toggle -->
+            <div class="dk-view-toggle" role="group" aria-label="Product view">
+              <button class="dk-view-toggle__btn dk-view-toggle__btn--grid dk-view-toggle__btn--active" id="dk-view-grid" title="Grid view" aria-pressed="true">
+                <i class="fa-solid fa-grip" aria-hidden="true"></i>
+              </button>
+              <button class="dk-view-toggle__btn dk-view-toggle__btn--list" id="dk-view-list" title="List view" aria-pressed="false">
+                <i class="fa-solid fa-list" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div><!-- /.dk-shop-toolbar -->
+
+        <!-- Product Grid -->
+        <div class="dk-product-grid dk-product-grid--3col" id="dk-shop-grid">
+          {%- if collection.products.size > 0 -%}
+            {%- for product in collection.products -%}
+              {% render 'product-card', product: product, section_id: 'collection' %}
+            {%- endfor -%}
+          {%- else -%}
+            <div class="dk-empty-state">
+              <i class="fa-solid fa-box-open dk-empty-state__icon" aria-hidden="true"></i>
+              <h2>No products found</h2>
+              <p>Try adjusting your filters or browse our other collections.</p>
+              <a href="{{ routes.collections_url }}" class="dk-btn dk-btn--primary">Browse All Collections</a>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <!-- Pagination -->
+        {%- if paginate.pages > 1 -%}
+          <nav class="dk-pagination" aria-label="Pagination">
+            <div class="dk-pagination__inner">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="dk-pagination__btn dk-pagination__btn--prev" aria-label="Previous page">
+                  <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                </a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="dk-pagination__btn" aria-label="Page {{ part.title }}">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="dk-pagination__btn dk-pagination__btn--current" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="dk-pagination__ellipsis">&hellip;</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="dk-pagination__btn dk-pagination__btn--next" aria-label="Next page">
+                  <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </a>
+              {%- endif -%}
+            </div>
+          </nav>
+        {%- endif -%}
+
+      </div><!-- /.dk-shop__main -->
+    </div><!-- /.dk-shop__layout -->
+  </div>
+</div>
+
+{%- paginate collection.products by 24 -%}{%- endpaginate -%}

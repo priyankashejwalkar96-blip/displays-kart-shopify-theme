@@ -1,0 +1,91 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "badge_text": "DIRECT MANUFACTURER & IMPORTER",
+        "heading": "Empower Your Brand At",
+        "heading_highlight": "Exhibitions & Events.",
+        "subtext": "Explore India's premium collection of Heavy-Duty Gazebo Canopies, Luxury Roll-Up Standees, Portable Promo Counters, and SEG Backlit Fabric Lightboxes.",
+        "primary_btn_text": "Explore All Products",
+        "secondary_btn_text": "Request B2B Price List"
+      }
+    },
+    "usp": {
+      "type": "usp-strip",
+      "settings": {}
+    },
+    "welcome": {
+      "type": "welcome",
+      "settings": {}
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "subheading": "FEATURED PRODUCTS",
+        "heading": "SHOP OUR|COLLECTIONS",
+        "products_count": 4,
+        "show_view_all": true
+      }
+    },
+    "showcase": {
+      "type": "showcase",
+      "settings": {
+        "cta_text": "View More"
+      }
+    },
+    "hotel-products": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "HOTEL SUPPLIES &|ORGANIZER",
+        "products_count": 4,
+        "show_view_all": true
+      }
+    },
+    "exclusive-products": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "EXCLUSIVE|PRODUCTS",
+        "products_count": 8,
+        "show_view_all": false
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "name": "Priya S.",
+            "location": "Mumbai",
+            "rating": 5,
+            "review": "Excellent quality acrylic frames! Exactly what I needed for my hotel lobby. Fast delivery and great packaging.",
+            "product_purchased": "Magnetic T-Style Sign Holder"
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "name": "Rahul M.",
+            "location": "Delhi",
+            "rating": 5,
+            "review": "Best acrylic displays in India! Ordered 50 units for our retail chain. Superb quality and bulk discount was a great deal.",
+            "product_purchased": "Clear Acrylic Sign Holder A4"
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "name": "Anita K.",
+            "location": "Bengaluru",
+            "rating": 5,
+            "review": "The donation boxes are solid and beautifully clear. Our temple visitors love them. Will order again!",
+            "product_purchased": "Acrylic Donation Box with Lock"
+          }
+        }
+      },
+      "block_order": ["review-1", "review-2", "review-3"]
+    }
+  },
+  "order": ["hero", "usp", "welcome", "featured-products", "showcase", "hotel-products", "exclusive-products", "testimonials"]
+}

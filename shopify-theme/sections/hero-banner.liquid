@@ -1,0 +1,111 @@
+<!-- ================================================ -->
+<!-- HERO BANNER SECTION                            -->
+<!-- ================================================ -->
+<section class="dk-hero" aria-label="Hero banner">
+  <!-- Ambient orbs -->
+  <div class="dk-orb dk-orb--a" aria-hidden="true"></div>
+  <div class="dk-orb dk-orb--b" aria-hidden="true"></div>
+
+  <div class="dk-container">
+    <div class="dk-hero__grid">
+
+      <!-- Left: Text content -->
+      <div class="dk-hero__content">
+        <div class="dk-hero__badge">
+          <i class="fa-solid fa-crown" aria-hidden="true"></i>
+          {{ section.settings.badge_text }}
+        </div>
+
+        <h1 class="dk-hero__heading">
+          {{ section.settings.heading }}
+          <span class="dk-hero__heading-highlight">{{ section.settings.heading_highlight }}</span>
+        </h1>
+
+        <p class="dk-hero__subtext">{{ section.settings.subtext }}</p>
+
+        <div class="dk-hero__cta-wrap">
+          <a href="{{ section.settings.primary_btn_link }}" class="dk-btn dk-btn--primary dk-btn--lg">
+            {{ section.settings.primary_btn_text }}
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+          <a href="{{ section.settings.secondary_btn_link }}" class="dk-btn dk-btn--ghost dk-btn--lg">
+            {{ section.settings.secondary_btn_text }}
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="dk-hero__stats" role="list">
+          <div class="dk-hero__stat" role="listitem">
+            <div class="dk-hero__stat-num">15,000+</div>
+            <div class="dk-hero__stat-label">Products Delivered</div>
+          </div>
+          <div class="dk-hero__stat" role="listitem">
+            <div class="dk-hero__stat-num">500+</div>
+            <div class="dk-hero__stat-label">Corporate Clients</div>
+          </div>
+          <div class="dk-hero__stat" role="listitem">
+            <div class="dk-hero__stat-num">4.9 &#9733;</div>
+            <div class="dk-hero__stat-label">Verified Quality Rating</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Image card -->
+      <div class="dk-hero__image-wrap">
+        <div class="dk-hero__image-card">
+          {%- if section.settings.hero_image != blank -%}
+            <img
+              src="{{ section.settings.hero_image | image_url: width: 900 }}"
+              alt="{{ section.settings.hero_image_alt | default: 'DisplaysKart featured product' }}"
+              class="dk-hero__image"
+              width="900"
+              height="600"
+              loading="eager"
+              fetchpriority="high"
+            >
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'dk-hero__image dk-hero__image--placeholder' }}
+          {%- endif -%}
+          <div class="dk-hero__image-overlay" aria-hidden="true"></div>
+          <!-- Floating product info card -->
+          <div class="dk-hero__floating-card">
+            <div class="dk-hero__floating-card-top">
+              <span class="dk-hero__floating-badge">BESTSELLING CANOPY</span>
+              <span class="dk-hero__floating-price">&#8377;8,499</span>
+            </div>
+            <h4 class="dk-hero__floating-title">Heavy Duty 10x10 Pop-Up Gazebo Canopy</h4>
+            <p class="dk-hero__floating-sub">Waterproof Oxford 600D with reinforced Hexagonal Frame</p>
+            <div class="dk-hero__floating-actions">
+              <a href="{{ section.settings.floating_card_link | default: routes.collections_url }}" class="dk-btn dk-btn--amber dk-btn--sm">View Product</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "dk-hero-section",
+  "settings": [
+    { "type": "text", "id": "badge_text", "label": "Badge text", "default": "DIRECT MANUFACTURER & IMPORTER" },
+    { "type": "text", "id": "heading", "label": "Heading line 1", "default": "Empower Your Brand At" },
+    { "type": "text", "id": "heading_highlight", "label": "Heading highlight", "default": "Exhibitions & Events." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Explore India's premium collection of Heavy-Duty Gazebo Canopies, Luxury Roll-Up Standees, Portable Promo Counters, and SEG Backlit Fabric Lightboxes." },
+    { "type": "text", "id": "primary_btn_text", "label": "Primary button text", "default": "Explore All Products" },
+    { "type": "url", "id": "primary_btn_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_btn_text", "label": "Secondary button text", "default": "Request B2B Price List" },
+    { "type": "url", "id": "secondary_btn_link", "label": "Secondary button link" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_image_alt", "label": "Hero image alt text" },
+    { "type": "url", "id": "floating_card_link", "label": "Floating card product link" }
+  ],
+  "presets": [
+    { "name": "Hero Banner" }
+  ]
+}
+{% endschema %}
