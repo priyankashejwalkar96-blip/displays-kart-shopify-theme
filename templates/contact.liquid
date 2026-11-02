@@ -1,0 +1,225 @@
+<!-- ================================================ -->
+<!-- CONTACT PAGE TEMPLATE                          -->
+<!-- ================================================ -->
+
+<!-- Hero -->
+<section class="dk-contact-hero" aria-labelledby="dk-contact-heading">
+  <div class="dk-contact-hero__grid-bg" aria-hidden="true"></div>
+  <div class="dk-container">
+    <nav class="dk-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}" class="dk-breadcrumb__link dk-breadcrumb__link--light">Home</a>
+      <span class="dk-breadcrumb__sep" aria-hidden="true">/</span>
+      <span class="dk-breadcrumb__current dk-breadcrumb__current--light">Contact</span>
+    </nav>
+    <span class="dk-contact-hero__pill">
+      <span class="dk-contact-hero__dot" aria-hidden="true"></span>
+      Support team online &middot; replies within 24 hours
+    </span>
+    <h1 class="dk-contact-hero__heading" id="dk-contact-heading">
+      Let's build your <span class="dk-contact-hero__gradient">perfect display</span>.
+    </h1>
+    <p class="dk-contact-hero__sub">
+      Questions about acrylic displays, bulk pricing or custom sizes? Tell us what you need and our team will get back to you quickly.
+    </p>
+    <ul class="dk-contact-hero__features" aria-label="Contact features">
+      <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Free quotes</li>
+      <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Custom sizes &amp; colours</li>
+      <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Ships across India</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Main Content -->
+<div class="dk-contact-main dk-container">
+
+  <!-- Quick Contact Cards -->
+  <div class="dk-contact-quick-cards" role="list">
+    <a href="tel:+917900054449" class="dk-contact-quick" role="listitem">
+      <span class="dk-contact-quick__ico" style="--c:#f59e0b"><i class="fa-solid fa-phone" aria-hidden="true"></i></span>
+      <strong>Call us</strong>
+      <small>+91 79000 54449</small>
+    </a>
+    <a href="https://wa.me/917900054449" target="_blank" rel="noopener" class="dk-contact-quick" role="listitem">
+      <span class="dk-contact-quick__ico" style="--c:#22c55e"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
+      <strong>WhatsApp</strong>
+      <small>Chat for a quick quote</small>
+    </a>
+    <a href="mailto:support@displayskart.com" class="dk-contact-quick" role="listitem">
+      <span class="dk-contact-quick__ico" style="--c:#d9534f"><i class="fa-regular fa-envelope" aria-hidden="true"></i></span>
+      <strong>Email</strong>
+      <small>support@displayskart.com</small>
+    </a>
+    <a href="#dk-map" onclick="event.preventDefault();document.getElementById('dk-map').scrollIntoView({behavior:'smooth',block:'center'})" class="dk-contact-quick" role="listitem">
+      <span class="dk-contact-quick__ico" style="--c:#3b82f6"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span>
+      <strong>Visit us</strong>
+      <small>Kamakshi Palya, Bengaluru</small>
+    </a>
+  </div>
+
+  <!-- Form + Side Column -->
+  <div class="dk-contact-grid">
+
+    <!-- Contact Form -->
+    <div class="dk-contact-form-card">
+      <h2 class="dk-contact-form-card__title">Send us a message</h2>
+      <p class="dk-contact-form-card__sub">Fields marked <span class="dk-text-red">*</span> are required.</p>
+
+      {%- form 'contact', id: 'dk-contact-form', class: 'dk-contact-form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="dk-contact-success" role="alert">
+            <div class="dk-contact-success__tick"><i class="fa-solid fa-check" aria-hidden="true"></i></div>
+            <h3>Message sent!</h3>
+            <p>Thank you. Our team will reply by email shortly.</p>
+          </div>
+        {%- else -%}
+
+          <!-- Topic chips -->
+          <fieldset class="dk-contact-form__fieldset">
+            <legend class="dk-contact-form__legend">What can we help with?</legend>
+            <div class="dk-contact-form__chips" role="radiogroup">
+              <label class="dk-chip"><input type="radio" name="contact[topic]" value="Product enquiry" checked><span><i class="fa-solid fa-box-open" aria-hidden="true"></i> Product enquiry</span></label>
+              <label class="dk-chip"><input type="radio" name="contact[topic]" value="Bulk order"><span><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i> Bulk order</span></label>
+              <label class="dk-chip"><input type="radio" name="contact[topic]" value="Custom size"><span><i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> Custom size</span></label>
+              <label class="dk-chip"><input type="radio" name="contact[topic]" value="Order support"><span><i class="fa-solid fa-headset" aria-hidden="true"></i> Order support</span></label>
+            </div>
+          </fieldset>
+
+          <div class="dk-contact-form__row">
+            <div class="dk-float-field">
+              <input type="text" name="contact[name]" id="ct-name" placeholder=" " autocomplete="name" required>
+              <label for="ct-name">Your name *</label>
+            </div>
+            <div class="dk-float-field">
+              <input type="email" name="contact[email]" id="ct-email" placeholder=" " autocomplete="email" required>
+              <label for="ct-email">Email address *</label>
+            </div>
+            <div class="dk-float-field">
+              <input type="tel" name="contact[phone]" id="ct-phone" placeholder=" " autocomplete="tel" inputmode="tel">
+              <label for="ct-phone">Phone (optional)</label>
+            </div>
+            <div class="dk-float-field">
+              <input type="text" name="contact[company]" id="ct-company" placeholder=" " autocomplete="organization">
+              <label for="ct-company">Company (optional)</label>
+            </div>
+          </div>
+
+          <div class="dk-float-field dk-float-field--full">
+            <textarea name="contact[body]" id="ct-message" rows="5" maxlength="800" placeholder=" " required></textarea>
+            <label for="ct-message">Your message *</label>
+            <span class="dk-float-field__count" id="dk-msg-count">0 / 800</span>
+          </div>
+
+          <label class="dk-contact-form__consent">
+            <input type="checkbox" name="contact[consent]" id="ct-consent" required>
+            <span>I agree to be contacted about my enquiry. We never share your details.</span>
+          </label>
+
+          <div class="dk-contact-form__submit-row">
+            <button type="submit" class="dk-contact-form__submit-btn">
+              Send message <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+            </button>
+            <span class="dk-contact-form__privacy-note">
+              <i class="fa-solid fa-lock" aria-hidden="true"></i> Your details are kept private
+            </span>
+          </div>
+
+          {%- if form.errors -%}
+            <div class="dk-contact-form__errors" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+        {%- endif -%}
+      {%- endform -%}
+    </div><!-- /.dk-contact-form-card -->
+
+    <!-- Side Column -->
+    <div class="dk-contact-side">
+
+      <!-- Hours -->
+      <div class="dk-contact-hours">
+        <div class="dk-contact-hours__header">
+          <h3>Opening hours</h3>
+          <span class="dk-hours-status" id="dk-hours-status">Checking&hellip;</span>
+        </div>
+        <ul class="dk-contact-hours__list">
+          <li><span>Monday &ndash; Saturday</span><strong>10:00 AM &ndash; 7:00 PM</strong></li>
+          <li><span>Sunday</span><strong>Closed</strong></li>
+        </ul>
+        <p class="dk-contact-hours__note">Online orders and email enquiries are answered 7 days a week.</p>
+      </div>
+
+      <!-- Address -->
+      <div class="dk-contact-address">
+        <div class="dk-contact-address__icon-wrap">
+          <span class="dk-contact-quick__ico" style="--c:#3b82f6"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span>
+          <div>
+            <h3>Our workshop</h3>
+            <address>Behind Bajaj Show Room, 6th Main Road, HVR Layout, Kamakshi Palya, Bengaluru &ndash; 560079</address>
+            <a href="https://www.google.com/maps/search/?api=1&query=Kamakshi+Palya+Bangalore+560079" target="_blank" rel="noopener" class="dk-contact-address__directions">
+              Get directions <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="dk-contact-address__social">
+          <h4>Follow us</h4>
+          <div class="dk-contact-social">
+            <a href="#" class="dk-contact-social__link" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+            <a href="#" class="dk-contact-social__link" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" class="dk-contact-social__link" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+            <a href="#" class="dk-contact-social__link" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.dk-contact-side -->
+  </div><!-- /.dk-contact-grid -->
+
+  <!-- FAQ -->
+  <section class="dk-contact-faq" aria-labelledby="dk-faq-heading">
+    <div class="dk-section-header dk-section-header--center">
+      <p class="dk-section-header__label">Quick answers</p>
+      <h2 class="dk-section-header__title" id="dk-faq-heading">Frequently asked questions</h2>
+    </div>
+    <div class="dk-faq-list">
+      <details class="dk-faq-item" open>
+        <summary class="dk-faq-item__summary">Do you make custom sizes and colours? <i class="fa-solid fa-plus" aria-hidden="true"></i></summary>
+        <p class="dk-faq-item__answer">Yes. Send us the dimensions, thickness and colour you need and we will share a quote with a lead time.</p>
+      </details>
+      <details class="dk-faq-item">
+        <summary class="dk-faq-item__summary">Do you offer bulk or wholesale pricing? <i class="fa-solid fa-plus" aria-hidden="true"></i></summary>
+        <p class="dk-faq-item__answer">We do. Choose "Bulk order" above and mention the quantity. Discounts apply for retail chains, NGOs and hotels.</p>
+      </details>
+      <details class="dk-faq-item">
+        <summary class="dk-faq-item__summary">How long does delivery take? <i class="fa-solid fa-plus" aria-hidden="true"></i></summary>
+        <p class="dk-faq-item__answer">Ready stock usually ships within 1&ndash;2 working days. Delivery across India typically takes 3&ndash;7 days depending on location.</p>
+      </details>
+      <details class="dk-faq-item">
+        <summary class="dk-faq-item__summary">What if my order arrives damaged? <i class="fa-solid fa-plus" aria-hidden="true"></i></summary>
+        <p class="dk-faq-item__answer">Send us photos within 48 hours of delivery using "Order support" and we will arrange a replacement.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <div class="dk-contact-map" id="dk-map">
+    <iframe
+      title="DisplaysKart location"
+      loading="lazy"
+      class="dk-contact-map__iframe"
+      src="https://maps.google.com/maps?q=Kamakshi%20Palya%20Bangalore%20560079&output=embed"
+    ></iframe>
+  </div>
+
+  <!-- CTA -->
+  <div class="dk-contact-cta">
+    <div>
+      <h3>Need a large or repeat order?</h3>
+      <p>Call us and get a quote in minutes.</p>
+    </div>
+    <a href="tel:+917900054449" class="dk-contact-cta__btn">
+      <i class="fa-solid fa-phone" aria-hidden="true"></i> +91 79000 54449
+    </a>
+  </div>
+
+</div><!-- /.dk-contact-main -->
