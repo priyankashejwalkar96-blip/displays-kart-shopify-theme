@@ -1,0 +1,129 @@
+<!-- ================================================ -->
+<!-- PRODUCT CARD SNIPPET                           -->
+<!-- Usage: {% render 'product-card', product: product, section_id: section.id %} -->
+<!-- ================================================ -->
+{%- liquid
+  assign product_url = product.url
+  assign product_title = product.title
+  assign product_price = product.price | money
+  assign product_compare_price = product.compare_at_price | money
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+    assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round | prepend: '-' | append: '%'
+  endif
+  assign product_image = product.featured_image
+  assign sold_out = false
+  unless product.available
+    assign sold_out = true
+  endunless
+-%}
+
+<article class="dk-product-card" data-product-id="{{ product.id }}">
+
+  <!-- Image Container -->
+  <div class="dk-product-card__img-wrap">
+    <a href="{{ product_url }}" class="dk-product-card__img-link" tabindex="-1" aria-hidden="true">
+      {%- if product_image -%}
+        <img
+          class="dk-product-card__img"
+          src="{{ product_image | image_url: width: 500 }}"
+          alt="{{ product_image.alt | default: product_title | escape }}"
+          width="500"
+          height="500"
+          loading="lazy"
+        >
+        {%- if product.images.size > 1 -%}
+          <img
+            class="dk-product-card__img dk-product-card__img--hover"
+            src="{{ product.images[1] | image_url: width: 500 }}"
+            alt="{{ product.images[1].alt | default: product_title | escape }}"
+            width="500"
+            height="500"
+            loading="lazy"
+          >
+        {%- endif -%}
+      {%- else -%}
+        <div class="dk-product-card__img-placeholder">
+          <i class="fa-solid fa-image" aria-hidden="true"></i>
+        </div>
+      {%- endif -%}
+    </a>
+
+    <!-- Badges -->
+    <div class="dk-product-card__badges">
+      {%- if sold_out -%}
+        <span class="dk-badge dk-badge--sold-out">Sold Out</span>
+      {%- elsif on_sale -%}
+        <span class="dk-badge dk-badge--sale">{{ discount_percent }}</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Wishlist button -->
+    {%- if settings.product_card_wishlist -%}
+      <button
+        class="dk-product-card__wishlist"
+        data-product-id="{{ product.id }}"
+        aria-label="Add {{ product_title | escape }} to wishlist"
+        title="Add to wishlist"
+      >
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+      </button>
+    {%- endif -%}
+
+    <!-- Quick Add to Cart -->
+    {%- if settings.product_card_quick_add and product.available -%}
+      <button
+        class="dk-product-card__quick-add"
+        data-product-id="{{ product.id }}"
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Quick add {{ product_title | escape }} to cart"
+      >
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+        Quick Add
+      </button>
+    {%- endif -%}
+  </div>
+
+  <!-- Card Body -->
+  <div class="dk-product-card__body">
+    {%- if product.vendor != blank -%}
+      <p class="dk-product-card__sku">SKU: {{ product.metafields.custom.sku | default: product.id }}</p>
+    {%- endif -%}
+
+    <h3 class="dk-product-card__title">
+      <a href="{{ product_url }}">{{ product_title }}</a>
+    </h3>
+
+    <!-- Rating -->
+    <div class="dk-product-card__rating" aria-label="Rating: 4.9 out of 5">
+      <span class="dk-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span class="dk-product-card__rating-count">(4.9)</span>
+    </div>
+
+    <!-- Price -->
+    <div class="dk-product-card__price-wrap">
+      {%- if on_sale -%}
+        <span class="dk-product-card__price dk-product-card__price--sale">{{ product_price }}</span>
+        <span class="dk-product-card__price dk-product-card__price--compare">{{ product_compare_price }}</span>
+      {%- else -%}
+        <span class="dk-product-card__price">{{ product_price }}</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Add to Cart -->
+    {%- if product.available -%}
+      <button
+        class="dk-product-card__atc dk-btn dk-btn--dark"
+        data-product-id="{{ product.id }}"
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Add {{ product_title | escape }} to cart"
+      >
+        Add To Cart
+      </button>
+    {%- else -%}
+      <button class="dk-product-card__atc dk-btn dk-btn--disabled" disabled>Sold Out</button>
+    {%- endif -%}
+  </div>
+
+</article>
