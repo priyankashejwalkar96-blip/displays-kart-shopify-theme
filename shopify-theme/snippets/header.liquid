@@ -1,0 +1,186 @@
+<!-- ================================================ -->
+<!-- SITE HEADER                                    -->
+<!-- ================================================ -->
+<header id="dk-header" class="dk-header" role="banner">
+  <div class="dk-header__inner dk-container">
+
+    <!-- Logo -->
+    <div class="dk-header__logo">
+      <a href="{{ routes.root_url }}" class="dk-logo" aria-label="{{ shop.name }} home">
+        {%- if settings.logo != blank -%}
+          <img
+            src="{{ settings.logo | image_url: width: settings.logo_max_width }}"
+            alt="{{ shop.name }}"
+            width="{{ settings.logo_max_width }}"
+            height="auto"
+            loading="eager"
+          >
+        {%- else -%}
+          <span class="dk-logo__text">
+            Displays <span class="dk-logo__kart">Kart</span>
+          </span>
+          <sup class="dk-logo__reg">&reg;</sup>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Search -->
+    <div class="dk-header__search" role="search">
+      <form action="{{ routes.search_url }}" method="get" class="dk-search-form">
+        <input
+          type="search"
+          name="q"
+          placeholder="Search for acrylic displays, frames, boxes..."
+          class="dk-search-form__input"
+          aria-label="Search products"
+          autocomplete="off"
+        >
+        <button type="submit" class="dk-search-form__btn" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="dk-header__actions">
+      <!-- WhatsApp -->
+      <a href="https://wa.me/917900054449" target="_blank" rel="noopener" class="dk-header__action-btn dk-header__action-btn--whatsapp" title="WhatsApp us" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        <span class="dk-header__action-label">WhatsApp</span>
+      </a>
+
+      <!-- Account -->
+      <a href="{{ routes.account_url }}" class="dk-header__action-btn" title="Account" aria-label="Account">
+        <i class="fa-regular fa-user" aria-hidden="true"></i>
+        <span class="dk-header__action-label">Account</span>
+      </a>
+
+      <!-- Wishlist -->
+      <button class="dk-header__action-btn" id="dk-wishlist-btn" title="Wishlist" aria-label="Wishlist">
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+        <span class="dk-header__action-label">Wishlist</span>
+      </button>
+
+      <!-- Cart -->
+      <button class="dk-header__action-btn dk-header__action-btn--cart" id="dk-cart-toggle" title="Cart" aria-label="Open cart" aria-expanded="false">
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+        <span class="dk-cart-count" id="dk-cart-count">{{ cart.item_count }}</span>
+        <span class="dk-header__action-label">Cart</span>
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button class="dk-header__hamburger" id="dk-mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="dk-mobile-nav">
+      <span class="dk-hamburger-line"></span>
+      <span class="dk-hamburger-line"></span>
+      <span class="dk-hamburger-line"></span>
+    </button>
+
+  </div><!-- /.dk-header__inner -->
+
+  <!-- Navigation -->
+  <nav class="dk-nav" id="dk-nav" role="navigation" aria-label="Main navigation">
+    <div class="dk-container">
+      <ul class="dk-nav__list" role="list">
+
+        <li class="dk-nav__item">
+          <a href="{{ routes.root_url }}" class="dk-nav__link{% if request.page_type == 'index' %} dk-nav__link--active{% endif %}">HOME</a>
+        </li>
+
+        <!-- Collections Mega Menu -->
+        <li class="dk-nav__item dk-nav__item--mega" id="nav-collections">
+          <a href="{{ routes.collections_url }}" class="dk-nav__link">COLLECTIONS <i class="fa-solid fa-chevron-down dk-nav__chevron" aria-hidden="true"></i></a>
+          <div class="dk-mega-menu" id="dk-mega-collections" role="region" aria-label="Collections menu">
+            <div class="dk-container">
+              <div class="dk-mega-menu__grid">
+                <div class="dk-mega-menu__col">
+                  <h3 class="dk-mega-menu__heading">Shop By Category</h3>
+                  <ul class="dk-mega-menu__links" role="list">
+                    <li><a href="{{ routes.collections_url }}/acrylic-photo-frames">Acrylic Photo Frames</a></li>
+                    <li><a href="{{ routes.collections_url }}/sign-holders">Sign Holders</a></li>
+                    <li><a href="{{ routes.collections_url }}/suggestion-boxes">Suggestion & Donation Boxes</a></li>
+                    <li><a href="{{ routes.collections_url }}/hotel-supplies">Hotel Supplies & Organizers</a></li>
+                    <li><a href="{{ routes.collections_url }}/wall-mount">Wall Mount Displays & Frames</a></li>
+                    <li><a href="{{ routes.collections_url }}/acrylic-sheets">Acrylic Sheets & Accessories</a></li>
+                    <li><a href="{{ routes.collections_url }}/label-holders">Acrylic Label Holders & Signs</a></li>
+                    <li><a href="{{ routes.collections_url }}/brochure-holders">Brochure Holders</a></li>
+                  </ul>
+                </div>
+                <div class="dk-mega-menu__col">
+                  <h3 class="dk-mega-menu__heading">Shop By Application</h3>
+                  <ul class="dk-mega-menu__links" role="list">
+                    <li><a href="{{ routes.collections_url }}/hotels-restaurants">Hotels & Restaurants</a></li>
+                    <li><a href="{{ routes.collections_url }}/corporate-offices">Corporate Offices</a></li>
+                    <li><a href="{{ routes.collections_url }}/retail-shops">Retail Displays for Shops</a></li>
+                    <li><a href="{{ routes.collections_url }}/exhibitions">Exhibitions & Events</a></li>
+                    <li><a href="{{ routes.collections_url }}/ngo-government">NGO & Government Orgs</a></li>
+                    <li><a href="{{ routes.collections_url }}/galleries-museums">Galleries & Museums</a></li>
+                    <li><a href="{{ routes.collections_url }}/home-interior">Home Interior & Decor</a></li>
+                  </ul>
+                </div>
+                <div class="dk-mega-menu__col dk-mega-menu__col--featured">
+                  <h3 class="dk-mega-menu__heading">Featured</h3>
+                  <div class="dk-mega-menu__featured">
+                    <a href="{{ routes.collections_url }}/best-sellers" class="dk-mega-menu__featured-card">
+                      <div class="dk-mega-menu__featured-badge">🔥 Bestsellers</div>
+                      <p>Shop our most popular acrylic display products trusted by 15,000+ customers</p>
+                    </a>
+                    <a href="/pages/bulk-orders" class="dk-mega-menu__featured-card dk-mega-menu__featured-card--dark">
+                      <div class="dk-mega-menu__featured-badge">💼 B2B Wholesale</div>
+                      <p>5% bulk discount for hotels, retailers & corporate clients</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="dk-nav__item">
+          <a href="{{ routes.collections_url }}" class="dk-nav__link{% if request.page_type == 'collection' %} dk-nav__link--active{% endif %}">SHOP</a>
+        </li>
+
+        <li class="dk-nav__item">
+          <a href="/pages/applications" class="dk-nav__link">APPLICATIONS</a>
+        </li>
+
+        <li class="dk-nav__item">
+          <a href="{{ routes.blogs_url }}/news" class="dk-nav__link{% if request.page_type == 'blog' or request.page_type == 'article' %} dk-nav__link--active{% endif %}">BLOG</a>
+        </li>
+
+        <li class="dk-nav__item">
+          <a href="{{ routes.contact_url }}" class="dk-nav__link{% if request.page_type == 'contact' %} dk-nav__link--active{% endif %}">CONTACT US</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav><!-- /.dk-nav -->
+
+  <!-- Mobile Nav -->
+  <div class="dk-mobile-nav" id="dk-mobile-nav" aria-hidden="true">
+    <ul class="dk-mobile-nav__list" role="list">
+      <li><a href="{{ routes.root_url }}" class="dk-mobile-nav__link">Home</a></li>
+      <li>
+        <button class="dk-mobile-nav__link dk-mobile-nav__link--toggle" aria-expanded="false" id="dk-mobile-collections-toggle">
+          Collections <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+        <ul class="dk-mobile-nav__sub" id="dk-mobile-collections-sub" aria-hidden="true">
+          <li><a href="{{ routes.collections_url }}/acrylic-photo-frames">Acrylic Photo Frames</a></li>
+          <li><a href="{{ routes.collections_url }}/sign-holders">Sign Holders</a></li>
+          <li><a href="{{ routes.collections_url }}/suggestion-boxes">Suggestion & Donation Boxes</a></li>
+          <li><a href="{{ routes.collections_url }}/hotel-supplies">Hotel Supplies</a></li>
+          <li><a href="{{ routes.collections_url }}/wall-mount">Wall Mount Displays</a></li>
+          <li><a href="{{ routes.collections_url }}/acrylic-sheets">Acrylic Sheets</a></li>
+          <li><a href="{{ routes.collections_url }}/label-holders">Label Holders</a></li>
+          <li><a href="{{ routes.collections_url }}/brochure-holders">Brochure Holders</a></li>
+        </ul>
+      </li>
+      <li><a href="{{ routes.collections_url }}" class="dk-mobile-nav__link">Shop</a></li>
+      <li><a href="/pages/applications" class="dk-mobile-nav__link">Applications</a></li>
+      <li><a href="{{ routes.blogs_url }}/news" class="dk-mobile-nav__link">Blog</a></li>
+      <li><a href="{{ routes.contact_url }}" class="dk-mobile-nav__link">Contact Us</a></li>
+      <li><a href="{{ routes.account_url }}" class="dk-mobile-nav__link">My Account</a></li>
+    </ul>
+  </div><!-- /.dk-mobile-nav -->
+
+</header>

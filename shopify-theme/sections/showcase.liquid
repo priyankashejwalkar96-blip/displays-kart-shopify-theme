@@ -1,0 +1,145 @@
+<!-- ================================================ -->
+<!-- SIGN HOLDER SHOWCASE SECTION                   -->
+<!-- ================================================ -->
+<section class="dk-showcase" aria-labelledby="dk-showcase-heading">
+  <div class="dk-container">
+
+    <!-- Top Row: Media + Editorial -->
+    <div class="dk-showcase__top-row">
+      <!-- Media (video/image) -->
+      <div class="dk-showcase__media-wrap">
+        <div class="dk-showcase__media-card">
+          <div class="dk-showcase__media-inner">
+            {%- if section.settings.showcase_image != blank -%}
+              <img
+                src="{{ section.settings.showcase_image | image_url: width: 1200 }}"
+                alt="{{ section.settings.showcase_image_alt | default: 'Premium Sign Holder Display' }}"
+                class="dk-showcase__media-img"
+                width="1200"
+                height="675"
+                loading="lazy"
+              >
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'dk-showcase__media-img dk-showcase__media-img--placeholder' }}
+            {%- endif -%}
+            <div class="dk-showcase__media-overlay" aria-hidden="true">
+              <!-- Top bar -->
+              <div class="dk-showcase__media-topbar">
+                <span class="dk-showcase__live-badge">
+                  <span class="dk-showcase__live-dot" aria-hidden="true"></span> SHOWCASE VIDEO
+                </span>
+                <span class="dk-showcase__size-badge">A4 / A5 / A6</span>
+              </div>
+              <!-- Play button -->
+              <div class="dk-showcase__play-wrap">
+                <button class="dk-showcase__play-btn" aria-label="Play showcase video" onclick="alert('Video Showcase: Premium Crystal Cast Acrylic Sign Holders Demo')">
+                  <i class="fa-solid fa-play" aria-hidden="true"></i>
+                </button>
+              </div>
+              <!-- Video controls bar -->
+              <div class="dk-showcase__controls" aria-hidden="true">
+                <div class="dk-showcase__controls-left">
+                  <button title="Pause"><i class="fa-solid fa-pause"></i></button>
+                  <span>0:19 / 0:19</span>
+                  <div class="dk-showcase__progress"><div class="dk-showcase__progress-fill"></div></div>
+                </div>
+                <div class="dk-showcase__controls-right">
+                  <button title="Volume"><i class="fa-solid fa-volume-high"></i></button>
+                  <button title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Editorial content -->
+      <div class="dk-showcase__editorial">
+        <p class="dk-showcase__label">
+          <span class="dk-showcase__label-line" aria-hidden="true"></span>
+          TOP-TIER ACRYLIC SERIES
+        </p>
+        <h2 class="dk-showcase__heading" id="dk-showcase-heading">PREMIUM SIGN HOLDER</h2>
+        <p class="dk-showcase__desc">
+          Sleek and Transparent, these durable acrylic holders professionally showcase menus or ads.
+          Their double-sided, easy-insert design ensures high visibility for retail, offices, or events.
+        </p>
+        <a href="{{ section.settings.cta_link | default: routes.collections_url }}" class="dk-btn dk-btn--red">
+          <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+          {{ section.settings.cta_text | default: 'View More' }}
+        </a>
+      </div>
+    </div><!-- /.dk-showcase__top-row -->
+
+    <!-- Middle Row: 2 Product Highlight Cards -->
+    <div class="dk-showcase__cards">
+      <div class="dk-showcase__card">
+        <div class="dk-showcase__card-text">
+          <h3 class="dk-showcase__card-title">Acrylic Premium Sign Holder</h3>
+          <p class="dk-showcase__card-desc">Crystal-clear dual-sided display stand with a weighted solid black support base for retail counters &amp; lobbies.</p>
+          <a href="{{ routes.contact_url }}" class="dk-btn dk-btn--red dk-btn--sm">Enquiry Now</a>
+        </div>
+        <div class="dk-showcase__card-img-wrap">
+          {%- if section.settings.card1_image != blank -%}
+            <img src="{{ section.settings.card1_image | image_url: width: 350 }}" alt="Acrylic Premium Sign Holder" loading="lazy" width="175" height="175">
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'dk-showcase__card-img-placeholder' }}
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="dk-showcase__card">
+        <div class="dk-showcase__card-text">
+          <h3 class="dk-showcase__card-title">Acrylic Gold Sign Pusher</h3>
+          <p class="dk-showcase__card-desc">Luxurious electroplated golden brass border frames engineered for 5-star hotels, cafes, and executive suites.</p>
+          <a href="{{ routes.contact_url }}" class="dk-btn dk-btn--red dk-btn--sm">Enquiry Now</a>
+        </div>
+        <div class="dk-showcase__card-img-wrap">
+          {%- if section.settings.card2_image != blank -%}
+            <img src="{{ section.settings.card2_image | image_url: width: 350 }}" alt="Acrylic Gold Sign Pusher" loading="lazy" width="175" height="175">
+          {%- else -%}
+            {{ 'product-2' | placeholder_svg_tag: 'dk-showcase__card-img-placeholder' }}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom: Dark CTA Banner -->
+    <div class="dk-showcase__cta-banner">
+      <div class="dk-showcase__cta-glow" aria-hidden="true"></div>
+      <div class="dk-showcase__cta-content">
+        <h2 class="dk-showcase__cta-heading">
+          HAVE QUESTIONS OR <span class="dk-text-red">NEED ASSISTANCE?</span>
+        </h2>
+        <p class="dk-showcase__cta-sub">Our expert team is ready to help you pick the right display solution.</p>
+        <div class="dk-showcase__cta-actions">
+          <a href="{{ routes.contact_url }}" class="dk-btn dk-btn--primary">
+            <i class="fa-solid fa-headset" aria-hidden="true"></i> Talk to an Expert
+          </a>
+          <a href="https://wa.me/917900054449" target="_blank" rel="noopener" class="dk-btn dk-btn--whatsapp">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp Us
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sign Holder Showcase",
+  "tag": "section",
+  "class": "dk-showcase-section",
+  "settings": [
+    { "type": "image_picker", "id": "showcase_image", "label": "Showcase image" },
+    { "type": "text", "id": "showcase_image_alt", "label": "Showcase image alt text" },
+    { "type": "text", "id": "cta_text", "label": "CTA button text", "default": "View More" },
+    { "type": "url", "id": "cta_link", "label": "CTA button link" },
+    { "type": "image_picker", "id": "card1_image", "label": "Card 1 product image" },
+    { "type": "image_picker", "id": "card2_image", "label": "Card 2 product image" }
+  ],
+  "presets": [
+    { "name": "Sign Holder Showcase" }
+  ]
+}
+{% endschema %}
