@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "blocks": {
+        "p1": { "type": "perk", "settings": { "text": "Free quotes" } },
+        "p2": { "type": "perk", "settings": { "text": "Custom sizes & colours" } },
+        "p3": { "type": "perk", "settings": { "text": "Ships across India" } },
+        "h1": { "type": "hours", "settings": { "days": "Monday – Saturday", "hours": "10:00 AM – 7:00 PM" } },
+        "h2": { "type": "hours", "settings": { "days": "Sunday", "hours": "Closed" } }
+      },
+      "block_order": ["p1", "p2", "p3", "h1", "h2"]
+    }
+  },
+  "order": ["main"]
+}
