@@ -1,0 +1,13 @@
+{%- comment -%} Dark gradient hero used on blog / contact / policy pages. Params: title, highlight, text, pill, pill_icon {%- endcomment -%}
+<section class="ct-hero cx-hero text-white">
+  <div class="cx-grid-bg"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 lg:pt-14 lg:pb-32 relative">
+    <nav class="flex items-center gap-2 text-xs text-neutral-400 mb-6" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}" class="hover:text-amber-400">{{ 'general.home' | t }}</a><span>/</span><span class="text-white font-semibold">{{ crumb | default: title }}</span>
+    </nav>
+    {%- if pill != blank -%}<span class="cx-pill"><i class="fa-solid {{ pill_icon | default: 'fa-lightbulb' }} text-amber-400"></i> {{ pill }}</span>{%- endif -%}
+    <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl leading-[1.08] max-w-3xl mt-5">{{ title }}{% if highlight != blank %} <span class="cx-grad">{{ highlight }}</span>{% endif %}</h1>
+    {%- if text != blank -%}<p class="mt-5 text-neutral-300 text-sm sm:text-base max-w-xl leading-relaxed">{{ text }}</p>{%- endif -%}
+    {{ extra }}
+  </div>
+</section>

@@ -1,0 +1,14 @@
+{%- assign f = address -%}
+<div class="cx-field"><input type="text" name="address[first_name]" id="AF-fn-{{ uid }}" placeholder=" " value="{{ f.first_name }}" autocomplete="given-name"><label for="AF-fn-{{ uid }}">{{ 'forms.first_name' | t }}</label></div>
+<div class="cx-field"><input type="text" name="address[last_name]" id="AF-ln-{{ uid }}" placeholder=" " value="{{ f.last_name }}" autocomplete="family-name"><label for="AF-ln-{{ uid }}">{{ 'forms.last_name' | t }}</label></div>
+<div class="cx-field"><input type="text" name="address[company]" id="AF-co-{{ uid }}" placeholder=" " value="{{ f.company }}"><label for="AF-co-{{ uid }}">{{ 'forms.company' | t }}</label></div>
+<div class="cx-field"><input type="text" name="address[address1]" id="AF-a1-{{ uid }}" placeholder=" " value="{{ f.address1 }}" autocomplete="address-line1"><label for="AF-a1-{{ uid }}">{{ 'forms.address1' | t }}</label></div>
+<div class="cx-field"><input type="text" name="address[address2]" id="AF-a2-{{ uid }}" placeholder=" " value="{{ f.address2 }}" autocomplete="address-line2"><label for="AF-a2-{{ uid }}">{{ 'forms.address2' | t }}</label></div>
+<div class="grid grid-cols-2 gap-3">
+  <div class="cx-field"><input type="text" name="address[city]" id="AF-ci-{{ uid }}" placeholder=" " value="{{ f.city }}" autocomplete="address-level2"><label for="AF-ci-{{ uid }}">{{ 'forms.city' | t }}</label></div>
+  <div class="cx-field"><input type="text" name="address[zip]" id="AF-zip-{{ uid }}" placeholder=" " value="{{ f.zip }}" autocomplete="postal-code"><label for="AF-zip-{{ uid }}">{{ 'forms.zip' | t }}</label></div>
+</div>
+<div class="cx-field"><input type="text" name="address[province]" id="AF-pr-{{ uid }}" placeholder=" " value="{{ f.province }}" autocomplete="address-level1"><label for="AF-pr-{{ uid }}">{{ 'forms.state' | t }}</label></div>
+<div class="cx-field"><input type="text" name="address[country]" id="AF-cn-{{ uid }}" placeholder=" " value="{{ f.country }}" autocomplete="country-name"><label for="AF-cn-{{ uid }}">{{ 'forms.country' | t }}</label></div>
+<div class="cx-field"><input type="tel" name="address[phone]" id="AF-ph-{{ uid }}" placeholder=" " value="{{ f.phone }}" autocomplete="tel"><label for="AF-ph-{{ uid }}">{{ 'forms.phone' | t }}</label></div>
+<label class="flex items-center gap-2 text-xs"><input type="checkbox" name="address[default]" value="1" class="accent-amber-500" {% if f == customer.default_address %}checked{% endif %}> {{ 'customer.set_default' | t }}</label>

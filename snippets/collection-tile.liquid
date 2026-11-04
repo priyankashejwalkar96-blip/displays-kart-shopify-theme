@@ -1,0 +1,16 @@
+{%- if collection != blank -%}
+<a href="{{ collection.url }}" {{ attrs }} class="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-amber-500 transition">
+  <div class="aspect-square bg-gray-50 overflow-hidden">
+    {%- assign img = collection.featured_image | default: collection.products.first.featured_image -%}
+    {%- if img -%}
+      <img src="{{ img | image_url: width: 500 }}" alt="{{ collection.title | escape }}" class="w-full h-full object-cover" loading="lazy" width="500" height="500">
+    {%- else -%}
+      {{ 'collection-1' | placeholder_svg_tag: 'w-full h-full' }}
+    {%- endif -%}
+  </div>
+  <div class="p-4 text-center">
+    <h3 class="font-bold text-sm text-neutral-900 group-hover:text-red-600 transition">{{ collection.title }}</h3>
+    <p class="text-[11px] text-gray-400 mt-1">{{ 'collections.product_count' | t: count: collection.all_products_count }}</p>
+  </div>
+</a>
+{%- endif -%}
