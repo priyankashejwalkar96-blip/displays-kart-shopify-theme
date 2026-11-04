@@ -1,0 +1,95 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" data-cart-page>
+  <h1 class="font-heading font-black text-3xl text-neutral-900 mb-8 uppercase tracking-tight">{{ 'cart.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="text-center py-20 bg-white border border-dashed border-gray-300 rounded-2xl">
+      <i class="fa-solid fa-bag-shopping text-4xl text-gray-300 mb-4"></i>
+      <p class="font-bold text-neutral-900 text-lg">{{ 'cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="inline-block mt-6 bg-neutral-900 hover:bg-red-600 text-white font-bold text-xs px-8 py-3 rounded-lg transition uppercase tracking-wider">{{ 'cart.continue' | t }}</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" id="cart-form" data-cart-form>
+      <div class="grid lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-8">
+
+          {%- assign threshold = section.settings.free_shipping_threshold | times: 100 -%}
+          {%- if threshold > 0 -%}
+            {%- assign remaining = threshold | minus: cart.total_price -%}
+            {%- assign pct = cart.total_price | times: 100 | divided_by: threshold -%}
+            {%- if pct > 100 %}{% assign pct = 100 %}{% endif -%}
+            <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4" data-shipping-bar data-threshold="{{ threshold }}">
+              <p class="text-xs font-bold text-neutral-800 mb-2">
+                {%- if remaining > 0 -%}{%- assign remaining_money = remaining | money -%}{{ 'cart.free_shipping_remaining' | t: amount: remaining_money }}{%- else -%}<i class="fa-solid fa-circle-check text-emerald-500"></i> {{ 'cart.free_shipping_unlocked' | t }}{%- endif -%}
+              </p>
+              <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-amber-400 to-red-500 rounded-full" style="width:{{ pct }}%"></div></div>
+            </div>
+          {%- endif -%}
+
+          <div class="bg-white border border-gray-200 rounded-2xl divide-y divide-gray-100">
+            {%- for item in cart.items -%}
+              <div class="flex gap-4 p-4 sm:p-5" data-cart-item data-key="{{ item.key }}">
+                <a href="{{ item.url }}" class="w-24 h-24 shrink-0 rounded-xl bg-gray-50 border border-gray-200 overflow-hidden">
+                  {%- if item.image -%}<img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | default: item.title | escape }}" class="w-full h-full object-cover" loading="lazy" width="96" height="96">{%- endif -%}
+                </a>
+                <div class="flex-1 min-w-0">
+                  <a href="{{ item.url }}" class="text-sm font-bold text-neutral-900 hover:text-red-600 line-clamp-2">{{ item.product.title }}</a>
+                  {%- unless item.product.has_only_default_variant -%}<p class="text-[11px] text-gray-500 mt-0.5">{{ item.variant.title }}</p>{%- endunless -%}
+                  {%- if item.sku != blank -%}<p class="text-[11px] text-gray-400 mt-0.5">SKU: {{ item.sku }}</p>{%- endif -%}
+                  {%- for discount in item.line_level_discount_allocations -%}<p class="text-[11px] text-emerald-600 font-semibold mt-1"><i class="fa-solid fa-tag"></i> {{ discount.discount_application.title }} (−{{ discount.amount | money }})</p>{%- endfor -%}
+                  <div class="flex flex-wrap items-center justify-between gap-3 mt-3">
+                    <div class="pd-qty" role="group">
+                      <button type="button" data-cart-q="-1" aria-label="Decrease">−</button>
+                      <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-line="{{ forloop.index }}" aria-label="{{ 'products.quantity' | t }}">
+                      <button type="button" data-cart-q="1" aria-label="Increase">+</button>
+                    </div>
+                    <div class="text-right">
+                      {%- if item.original_line_price != item.final_line_price -%}<s class="text-xs text-gray-400 mr-1">{{ item.original_line_price | money }}</s>{%- endif -%}
+                      <span class="font-black text-red-600">{{ item.final_line_price | money }}</span>
+                    </div>
+                    <a href="{{ item.url_to_remove }}" class="text-xs text-gray-400 hover:text-red-600" aria-label="{{ 'cart.remove' | t }}"><i class="fa-regular fa-trash-can"></i> {{ 'cart.remove' | t }}</a>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+          <a href="{{ routes.all_products_collection_url }}" class="inline-block mt-5 text-xs font-bold text-neutral-700 hover:text-red-600"><i class="fa-solid fa-arrow-left mr-1"></i> {{ 'cart.continue' | t }}</a>
+        </div>
+
+        <aside class="lg:col-span-4">
+          <div class="pd-card p-6 lg:sticky lg:top-40">
+            <h2 class="font-heading font-extrabold text-lg mb-4">{{ 'cart.summary' | t }}</h2>
+            <dl class="text-sm space-y-2">
+              <div class="flex justify-between"><dt class="text-neutral-600">{{ 'cart.subtotal' | t }}</dt><dd class="font-bold">{{ cart.items_subtotal_price | money }}</dd></div>
+              {%- for discount in cart.cart_level_discount_applications -%}
+                <div class="flex justify-between text-emerald-600"><dt>{{ discount.title }}</dt><dd>−{{ discount.total_allocated_amount | money }}</dd></div>
+              {%- endfor -%}
+              <div class="flex justify-between text-neutral-500 text-xs"><dt>{{ 'cart.shipping' | t }}</dt><dd>{{ 'cart.calculated_at_checkout' | t }}</dd></div>
+              <div class="flex justify-between border-t border-gray-100 pt-3 text-base"><dt class="font-bold">{{ 'cart.total' | t }}</dt><dd class="font-black text-red-600">{{ cart.total_price | money }}</dd></div>
+            </dl>
+            {%- if section.settings.show_bulk_note -%}
+              <p class="text-[11px] text-amber-700 font-semibold mt-3"><i class="fa-solid fa-percent mr-1"></i>{{ 'cart.bulk_note' | t }}</p>
+            {%- endif -%}
+            {%- if section.settings.show_note -%}
+              <label class="block mt-5 text-xs font-bold text-neutral-800 uppercase tracking-wider" for="CartNote">{{ 'cart.note' | t }}</label>
+              <textarea id="CartNote" name="note" rows="3" class="w-full mt-2 border border-gray-300 rounded-xl p-3 text-sm">{{ cart.note }}</textarea>
+            {%- endif -%}
+            <p class="text-[11px] text-neutral-500 mt-3">{{ 'cart.taxes_note' | t }}</p>
+            <button type="submit" name="checkout" class="pd-btn red w-full mt-5" style="width:100%"><i class="fa-solid fa-lock"></i> {{ 'cart.checkout' | t }}</button>
+            <button type="submit" name="update" class="w-full mt-3 text-xs font-bold text-neutral-600 hover:text-red-600">{{ 'cart.update' | t }}</button>
+          </div>
+        </aside>
+      </div>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart page",
+  "settings": [
+    { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping threshold (store currency, 0 to hide)", "default": 1000 },
+    { "type": "checkbox", "id": "show_bulk_note", "label": "Show bulk-discount note", "default": true },
+    { "type": "checkbox", "id": "show_note", "label": "Show order note field", "default": true }
+  ]
+}
+{% endschema %}

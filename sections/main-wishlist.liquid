@@ -1,0 +1,13 @@
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <h1 class="font-heading font-black text-3xl text-neutral-900 uppercase tracking-tight">{{ 'wishlist.title' | t }}</h1>
+  <p class="text-sm text-neutral-500 mt-1 mb-8">{{ 'wishlist.subtitle' | t }}</p>
+  <div id="wishlist-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5" data-wishlist-grid></div>
+  <div id="wishlist-empty" class="hidden text-center py-16 bg-white border border-dashed border-gray-300 rounded-2xl">
+    <i class="fa-regular fa-heart text-4xl text-gray-300 mb-3"></i>
+    <p class="font-bold text-neutral-900">{{ 'wishlist.empty' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="inline-block mt-4 bg-neutral-900 hover:bg-red-600 text-white font-bold text-xs px-6 py-2.5 rounded-lg transition uppercase tracking-wider">{{ 'cart.continue' | t }}</a>
+  </div>
+</div>
+{% schema %}
+{ "name": "Wishlist page", "settings": [] }
+{% endschema %}

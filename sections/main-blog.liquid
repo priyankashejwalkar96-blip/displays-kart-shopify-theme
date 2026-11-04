@@ -1,0 +1,42 @@
+{%- capture search_form -%}
+  <form action="{{ routes.search_url }}" method="get" class="relative mt-8 max-w-xl">
+    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"></i>
+    <input type="search" name="q" placeholder="{{ 'blog.search' | t }}" class="bl-search">
+    <input type="hidden" name="type" value="article">
+  </form>
+{%- endcapture -%}
+{% render 'page-hero', title: blog.title, crumb: blog.title, pill: section.settings.pill, text: section.settings.text, extra: search_form %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 pb-16 lg:pb-24 relative z-10 bl-page">
+  {%- paginate blog.articles by section.settings.posts_per_page -%}
+    <div class="bl-bar">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="{{ blog.url }}" class="bl-chip {% unless current_tags %}on{% endunless %}">{{ 'blog.all' | t }}</a>
+        {%- for tag in blog.all_tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="bl-chip {% if current_tags contains tag %}on{% endif %}">{{ tag }}</a>
+        {%- endfor -%}
+      </div>
+      <span class="text-xs font-semibold text-neutral-500">{{ blog.articles_count }} {{ 'blog.articles' | t }}</span>
+    </div>
+
+    {%- if blog.articles.size > 0 -%}
+      <div class="bl-grid">
+        {%- for article in blog.articles -%}{% render 'article-card', article: article %}{%- endfor -%}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {%- else -%}
+      <div class="text-center py-16 mt-6 bl-empty"><p class="font-bold">{{ 'blog.empty' | t }}</p></div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Blog page",
+  "settings": [
+    { "type": "text", "id": "pill", "label": "Hero pill", "default": "Ideas, guides & inspiration" },
+    { "type": "textarea", "id": "text", "label": "Hero text", "default": "Practical tips on acrylic displays for shops, hotels, offices and homes, written by the team that makes them." },
+    { "type": "range", "id": "posts_per_page", "label": "Articles per page", "min": 3, "max": 24, "step": 3, "default": 9 }
+  ]
+}
+{% endschema %}

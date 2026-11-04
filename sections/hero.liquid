@@ -1,0 +1,113 @@
+{%- liquid
+  assign fp = section.settings.featured_product
+-%}
+<section class="relative bg-neutral-950 text-white overflow-hidden py-14 lg:py-20 border-b border-neutral-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-7">
+        {%- if section.settings.badge != blank -%}
+          <div class="inline-flex items-center gap-2 bg-[#1f1a14] border border-[#d97706]/40 text-[#f59e0b] px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider mb-6">
+            <i class="fa-solid fa-crown text-amber-500"></i> {{ section.settings.badge }}
+          </div>
+        {%- endif -%}
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight leading-[1.1] mb-5 text-white">
+          {{ section.settings.heading }} <br><span class="text-amber-400">{{ section.settings.heading_highlight }}</span>
+        </h1>
+        <p class="text-neutral-300 text-sm sm:text-base mb-8 max-w-xl font-normal leading-relaxed">{{ section.settings.text }}</p>
+        <div class="flex flex-wrap gap-4 items-center mb-10">
+          {%- if section.settings.button_1_label != blank -%}
+            <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="bg-amber-500 hover:bg-amber-400 text-neutral-950 font-extrabold px-7 py-3.5 rounded-xl shadow-lg shadow-amber-500/25 transition flex items-center gap-2 text-xs uppercase tracking-wider">
+              {{ section.settings.button_1_label }} <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_2_label != blank -%}
+            <a href="{{ section.settings.button_2_link }}" class="bg-[#1e1e1e] hover:bg-neutral-800 text-white font-bold px-7 py-3.5 rounded-xl border border-neutral-700 transition text-xs uppercase tracking-wider">{{ section.settings.button_2_label }}</a>
+          {%- endif -%}
+        </div>
+        {%- if section.blocks.size > 0 -%}
+          <div class="grid grid-cols-3 gap-6 pt-6 border-t border-neutral-800/80">
+            {%- for block in section.blocks -%}
+              <div {{ block.shopify_attributes }}>
+                <div class="text-2xl sm:text-3xl font-black text-amber-400 font-heading" data-countup>{{ block.settings.number }}</div>
+                <div class="text-[11px] text-neutral-400 mt-0.5">{{ block.settings.label }}</div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="relative rounded-3xl overflow-hidden border border-neutral-800 bg-[#141414] shadow-2xl group">
+          {%- liquid
+            assign hero_img = section.settings.image
+            if hero_img == blank and fp != blank
+              assign hero_img = fp.featured_image
+            endif
+          -%}
+          {%- if hero_img != blank -%}
+            <img src="{{ hero_img | image_url: width: 900 }}" alt="{{ hero_img.alt | default: section.settings.heading | escape }}" class="w-full h-80 sm:h-96 object-cover opacity-85 group-hover:scale-105 transition duration-700" width="900" height="600" loading="eager">
+          {%- else -%}
+            <div class="w-full h-80 sm:h-96">{{ 'hero-apparel-1' | placeholder_svg_tag: 'w-full h-full object-cover opacity-60' }}</div>
+          {%- endif -%}
+          <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/30 to-transparent"></div>
+          {%- if fp != blank -%}
+            <div class="absolute bottom-4 left-4 right-4 bg-[#1a1a1a]/95 p-5 rounded-2xl border border-neutral-700/80 backdrop-blur-md">
+              <div class="flex justify-between items-center mb-1.5">
+                <span class="text-[10px] font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded">{{ section.settings.card_label }}</span>
+                <span class="text-sm font-black text-white">{{ fp.price | money }}</span>
+              </div>
+              <h4 class="font-bold text-white text-sm">{{ fp.title }}</h4>
+              <p class="text-[11px] text-neutral-300 mt-1">{{ fp.description | strip_html | truncate: 90 }}</p>
+              <div class="mt-4 flex gap-2">
+                <a href="{{ fp.url }}" class="flex-1 text-center bg-amber-500 hover:bg-amber-400 text-neutral-950 text-xs font-bold py-2.5 rounded-lg transition">{{ 'products.view_product' | t }}</a>
+                <button type="button" data-share="{{ shop.url | append: fp.url }}" data-share-title="{{ fp.title | escape }}" class="px-3 bg-neutral-800 hover:bg-neutral-700 text-white text-xs rounded-lg" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></button>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "badge", "label": "Badge", "default": "DIRECT MANUFACTURER & IMPORTER" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Empower Your Brand At" },
+    { "type": "text", "id": "heading_highlight", "label": "Highlighted heading", "default": "Exhibitions & Events." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Explore India's premium collection of acrylic displays, sign holders, donation boxes and photo frames." },
+    { "type": "text", "id": "button_1_label", "label": "Primary button label", "default": "Explore All Products" },
+    { "type": "url", "id": "button_1_link", "label": "Primary button link" },
+    { "type": "text", "id": "button_2_label", "label": "Secondary button label", "default": "Request B2B Price List" },
+    { "type": "url", "id": "button_2_link", "label": "Secondary button link" },
+    { "type": "header", "content": "Right-hand card" },
+    { "type": "image_picker", "id": "image", "label": "Image (falls back to product image)" },
+    { "type": "product", "id": "featured_product", "label": "Featured product" },
+    { "type": "text", "id": "card_label", "label": "Card label", "default": "BESTSELLER" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "15,000+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Products Delivered" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero banner",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "15,000+", "label": "Products Delivered" } },
+        { "type": "stat", "settings": { "number": "500+", "label": "Corporate Clients" } },
+        { "type": "stat", "settings": { "number": "4.9 ★", "label": "Verified Quality Rating" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

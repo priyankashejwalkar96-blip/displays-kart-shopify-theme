@@ -1,0 +1,33 @@
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 {% if template.name != 'list-collections' %}border-t border-gray-200{% endif %}">
+  <div class="text-center mb-10">
+    {%- if section.settings.eyebrow != blank -%}<div class="text-xs uppercase font-extrabold text-red-600 tracking-widest mb-1">{{ section.settings.eyebrow }}</div>{%- endif -%}
+    <h2 class="text-3xl sm:text-4xl font-black font-heading tracking-tight text-neutral-950 uppercase">{{ section.settings.heading }}</h2>
+    <div class="w-16 h-1 bg-red-600 mx-auto mt-2 rounded-full"></div>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {% render 'collection-tile', collection: block.settings.collection, attrs: block.shopify_attributes %}
+      {%- endfor -%}
+    {%- elsif template.name == 'list-collections' -%}
+      {%- for collection in collections -%}
+        {% render 'collection-tile', collection: collection %}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "BROWSE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop By Category" }
+  ],
+  "blocks": [
+    { "type": "collection", "name": "Collection", "settings": [ { "type": "collection", "id": "collection", "label": "Collection" } ] }
+  ],
+  "presets": [ { "name": "Collection list", "blocks": [ { "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" } ] } ]
+}
+{% endschema %}
