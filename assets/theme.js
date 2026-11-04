@@ -145,6 +145,73 @@
   }
   wlRender(); wlPage();
 
+
+  /* ---------- Quick view modal ---------- */
+  var qvOverlay;
+  function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : t; return d.innerHTML; }
+  function qvClose() { if (qvOverlay) { qvOverlay.classList.remove('open'); document.body.style.overflow = ''; } }
+  function qvOpen(handle) {
+    if (!qvOverlay) {
+      qvOverlay = document.createElement('div');
+      qvOverlay.className = 'qv-overlay';
+      qvOverlay.innerHTML = '<div class="qv-box" role="dialog" aria-modal="true"><button type="button" class="qv-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button><div class="qv-content"></div></div>';
+      document.body.appendChild(qvOverlay);
+      qvOverlay.addEventListener('click', function (e) { if (e.target === qvOverlay || e.target.closest('.qv-close')) qvClose(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') qvClose(); });
+    }
+    var box = $('.qv-content', qvOverlay);
+    box.innerHTML = '<div class="p-16 text-center text-neutral-400"><i class="fa-solid fa-spinner fa-spin text-2xl"></i></div>';
+    qvOverlay.classList.add('open'); document.body.style.overflow = 'hidden';
+    fetch('/products/' + handle + '.js').then(function (r) { return r.json(); }).then(function (p) {
+      var variants = p.variants, cur = variants.filter(function (v) { return v.available; })[0] || variants[0];
+      var single = variants.length === 1 && variants[0].title === 'Default Title';
+      var opts = single ? '' : p.options.map(function (o, i) {
+        return '<div class="mb-3"><div class="text-xs text-neutral-500 mb-1.5"><b class="text-neutral-800">' + esc(o.name || o) + '</b></div><div class="flex flex-wrap gap-2" data-qv-opt="' + i + '">' +
+          (o.values || []).map(function (val) {
+            return '<label class="cursor-pointer"><input type="radio" name="qvo' + i + '" value="' + esc(val) + '" class="peer sr-only"' + (cur.options[i] === val ? ' checked' : '') + '><span class="inline-block px-3.5 py-1.5 rounded-xl border-2 border-gray-200 text-xs font-bold peer-checked:border-neutral-900 peer-checked:bg-neutral-900 peer-checked:text-white transition">' + esc(val) + '</span></label>';
+          }).join('') + '</div></div>';
+      }).join('');
+      box.innerHTML = '<div class="qv-grid"><div class="qv-img">' + (p.featured_image ? '<img src="' + p.featured_image + '" alt="' + esc(p.title) + '">' : '') + '</div>' +
+        '<div><span class="pd-chip"><i class="fa-solid fa-tag"></i>' + esc(p.type || 'Acrylic') + '</span>' +
+        '<h2 class="font-heading font-black text-xl text-neutral-900 mt-3 leading-snug">' + esc(p.title) + '</h2>' +
+        '<div class="flex flex-wrap items-center gap-3 mt-4"><span class="pd-price" style="font-size:26px" data-qv-price></span><span class="pd-old hidden" data-qv-old></span></div>' +
+        '<p class="text-xs text-neutral-500 mt-3 leading-relaxed">' + esc((p.description || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180)) + '…</p>' +
+        '<div class="mt-5">' + opts + '</div>' +
+        '<div class="flex flex-wrap items-center gap-3 mt-4"><div class="pd-qty"><button type="button" data-qv-q="-1">−</button><input type="number" min="1" value="1" data-qv-qty><button type="button" data-qv-q="1">+</button></div></div>' +
+        '<div class="flex flex-wrap gap-3 mt-5"><button type="button" class="pd-btn dark" data-qv-add><i class="fa-solid fa-cart-plus"></i>' + esc(T.strings.addToCart || 'Add to cart') + '</button></div>' +
+        '<a href="' + p.url + '" class="inline-block mt-5 text-xs font-bold text-red-600 hover:underline">' + esc(T.strings.viewDetails || 'View full details') + ' <i class="fa-solid fa-arrow-right"></i></a></div></div>';
+      function paint() {
+        $('[data-qv-price]', box).textContent = money(cur.price);
+        var old = $('[data-qv-old]', box), sale = cur.compare_at_price && cur.compare_at_price > cur.price;
+        old.classList.toggle('hidden', !sale); old.textContent = sale ? money(cur.compare_at_price) : '';
+        var add = $('[data-qv-add]', box); add.disabled = !cur.available;
+      }
+      paint();
+      $$('[data-qv-opt] input', box).forEach(function (inp) {
+        inp.addEventListener('change', function () {
+          var sel = $$('[data-qv-opt]', box).map(function (g) { return $('input:checked', g).value; });
+          var m = variants.filter(function (v) { return sel.every(function (o, i) { return v.options[i] === o; }); })[0];
+          if (m) { cur = m; paint(); if (m.featured_image) $('.qv-img img', box).src = m.featured_image.src; }
+        });
+      });
+      var qin = $('[data-qv-qty]', box);
+      $$('[data-qv-q]', box).forEach(function (b) { b.addEventListener('click', function () { qin.value = Math.max(1, (parseInt(qin.value, 10) || 1) + parseInt(b.dataset.qvQ, 10)); }); });
+      $('[data-qv-add]', box).addEventListener('click', function () {
+        var fd = new FormData(); fd.append('id', cur.id); fd.append('quantity', Math.max(1, parseInt(qin.value, 10) || 1));
+        var btn = this; btn.disabled = true;
+        addToCart(fd).then(function () { qvClose(); toast(T.strings.added || 'Added to cart'); })
+          .catch(function (err) { toast((err && (err.description || err.message)) || 'Could not add to cart'); })
+          .then(function () { btn.disabled = false; });
+      });
+    }).catch(function () { qvClose(); location.href = '/products/' + handle; });
+  }
+  document.addEventListener('click', function (e) {
+    var q = e.target.closest('[data-quick-view]');
+    if (!q) return;
+    e.preventDefault(); e.stopPropagation();
+    qvOpen(q.dataset.handle);
+  }, true);
+
   /* ---------- share ---------- */
   document.addEventListener('click', function (e) {
     var s = e.target.closest('[data-share]'); if (!s) return;
