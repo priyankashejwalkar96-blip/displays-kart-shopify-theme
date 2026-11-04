@@ -1,16 +1,61 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-contact",
       "blocks": {
-        "p1": { "type": "perk", "settings": { "text": "Free quotes" } },
-        "p2": { "type": "perk", "settings": { "text": "Custom sizes & colours" } },
-        "p3": { "type": "perk", "settings": { "text": "Ships across India" } },
-        "h1": { "type": "hours", "settings": { "days": "Monday – Saturday", "hours": "10:00 AM – 7:00 PM" } },
-        "h2": { "type": "hours", "settings": { "days": "Sunday", "hours": "Closed" } }
+        "p1": {
+          "type": "perk",
+          "settings": {
+            "text": "Free quotes"
+          }
+        },
+        "p2": {
+          "type": "perk",
+          "settings": {
+            "text": "Custom sizes & colours"
+          }
+        },
+        "p3": {
+          "type": "perk",
+          "settings": {
+            "text": "Ships across India"
+          }
+        },
+        "h1": {
+          "type": "hours",
+          "settings": {
+            "days": "Monday – Saturday",
+            "hours": "10:00 AM – 7:00 PM"
+          }
+        },
+        "h2": {
+          "type": "hours",
+          "settings": {
+            "days": "Sunday",
+            "hours": "Closed"
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "h1", "h2"]
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "h1",
+        "h2"
+      ],
+      "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

@@ -1,15 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "t1": { "type": "trust", "settings": { "icon": "fa-gem", "text": "100% genuine cast acrylic" } },
-        "t2": { "type": "trust", "settings": { "icon": "fa-truck-fast", "text": "Pan-India delivery" } },
-        "t3": { "type": "trust", "settings": { "icon": "fa-industry", "text": "Direct manufacturer" } },
-        "t4": { "type": "trust", "settings": { "icon": "fa-headset", "text": "Help by phone & email" } }
+        "t1": {
+          "type": "trust",
+          "settings": {
+            "icon": "fa-gem",
+            "text": "100% genuine cast acrylic"
+          }
+        },
+        "t2": {
+          "type": "trust",
+          "settings": {
+            "icon": "fa-truck-fast",
+            "text": "Pan-India delivery"
+          }
+        },
+        "t3": {
+          "type": "trust",
+          "settings": {
+            "icon": "fa-industry",
+            "text": "Direct manufacturer"
+          }
+        },
+        "t4": {
+          "type": "trust",
+          "settings": {
+            "icon": "fa-headset",
+            "text": "Help by phone & email"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4"]
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }

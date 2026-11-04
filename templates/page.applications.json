@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -6,27 +15,27 @@
         "i1": {
           "type": "industry",
           "settings": {
+            "image_url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80",
             "title": "NGO's & Government Organizations",
             "text": "Tamper-Proof Lockable Charity Boxes, Document Frames & Signages",
-            "image_url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80",
             "link": "/collections/ngo"
           }
         },
         "i2": {
           "type": "industry",
           "settings": {
+            "image_url": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=700&q=80",
             "title": "Home Interior Photo Frames",
             "text": "Magnetic Desktop Blocks, Wall Floating Certificate Frames & Risers",
-            "image_url": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=700&q=80",
             "link": "/collections/home-interior"
           }
         },
         "i3": {
           "type": "industry",
           "settings": {
+            "image_url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80",
             "title": "Retail Displays for shops",
             "text": "Showcase Risers, Double-Sided Poster Stands & Price Sign Holders",
-            "image_url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80",
             "link": "/collections/retail-displays"
           }
         },
@@ -97,7 +106,8 @@
         "b2",
         "b3",
         "b4"
-      ]
+      ],
+      "settings": {}
     }
   },
   "order": [

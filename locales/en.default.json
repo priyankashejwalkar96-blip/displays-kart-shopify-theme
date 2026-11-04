@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "home": "Home",
@@ -45,11 +54,7 @@
     "dimensions": "Dimensions",
     "you_may_also_like": "You may also like",
     "related": "Related products",
-    "bulk_note": "Ordering 10 or more? Contact us for bulk pricing.",
-    "quick_view": "Quick view",
-    "view_full_details": "View full details",
-    "close": "Close",
-    "select_option": "Select"
+    "bulk_note": "Ordering 10 or more? Contact us for bulk pricing."
   },
   "collections": {
     "all_products": "All Products",
@@ -120,13 +125,7 @@
     "leave_comment": "Leave a comment",
     "post_comment": "Post comment",
     "comment_posted": "Your comment was posted.",
-    "comment_moderated": "Thanks! Your comment will appear after approval.",
-    "featured": "Featured",
-    "news_title": "Get display ideas in your inbox",
-    "news_text": "One useful email a month. No spam.",
-    "news_placeholder": "you@example.com",
-    "news_button": "Subscribe",
-    "news_success": "Thanks for subscribing!"
+    "comment_moderated": "Thanks! Your comment will appear after approval."
   },
   "forms": {
     "name": "Your name",

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -29,7 +38,19 @@
         "b1",
         "b2",
         "b3"
-      ]
+      ],
+      "settings": {
+        "badge": "DIRECT MANUFACTURER & IMPORTER",
+        "heading": "Empower Your Brand At",
+        "heading_highlight": "Exhibitions & Events.",
+        "text": "Explore India's premium collection of acrylic displays, sign holders, donation boxes and photo frames.",
+        "button_1_label": "Explore All Products",
+        "button_1_link": "",
+        "button_2_label": "Request B2B Price List",
+        "button_2_link": "",
+        "featured_product": "",
+        "card_label": "BESTSELLER"
+      }
     },
     "usp": {
       "type": "usp-strip",
@@ -72,7 +93,8 @@
         "b2",
         "b3",
         "b4"
-      ]
+      ],
+      "settings": {}
     },
     "welcome": {
       "type": "welcome-intro",
@@ -100,7 +122,16 @@
         "b1",
         "b2",
         "b3"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "India's Acrylic Destination",
+        "heading": "Welcome to DisplaysKart —",
+        "heading_highlight": "India's Trusted Acrylic Display Store",
+        "text": "<p>DisplaysKart is your one-stop manufacturer &amp; supplier for premium <strong>sign holders</strong>, acrylic photo frames, <strong>lockable donation boxes</strong>, brochure organizers, and riser stands engineered for retail stores, hotels, corporate offices, and exhibitions.</p>",
+        "card_emoji": "💎",
+        "card_heading": "Why Choose Acrylic Display Stands?",
+        "card_text": "<p>Crafted from virgin cast acrylic sheets, our display stands are <strong>lightweight</strong>, highly <strong>durable</strong>, <strong>shatter-resistant</strong>, and provide crystal clear 94%+ optical light transmission surpassing glass.</p>"
+      }
     },
     "featured": {
       "type": "featured-collection",
@@ -108,46 +139,79 @@
         "style": "centered",
         "eyebrow": "FEATURED PRODUCTS",
         "heading": "SHOP OUR COLLECTIONS",
-        "products_to_show": 8
+        "collection": "",
+        "products_to_show": 8,
+        "columns_desktop": "4",
+        "show_view_all": true
       }
     },
     "showcase": {
-      "type": "feature-showcase"
+      "type": "feature-showcase",
+      "settings": {
+        "video_url": "",
+        "eyebrow": "TOP-TIER ACRYLIC SERIES",
+        "heading": "PREMIUM SIGN HOLDER",
+        "text": "<p>Sleek and transparent, these durable acrylic holders professionally showcase menus or ads.</p>",
+        "button_label": "Shop Now",
+        "button_link": ""
+      }
     },
     "row_1": {
       "type": "featured-collection",
       "settings": {
+        "style": "left",
+        "eyebrow": "FEATURED PRODUCTS",
         "heading": "ACRYLIC SIGN HOLDER",
+        "collection": "acrylic-label-holders-signs",
         "products_to_show": 5,
-        "columns_desktop": "5"
+        "columns_desktop": "5",
+        "show_view_all": true
       }
     },
     "row_2": {
       "type": "featured-collection",
       "settings": {
+        "style": "left",
+        "eyebrow": "FEATURED PRODUCTS",
         "heading": "ACRYLIC PHOTO FRAMES",
+        "collection": "",
         "products_to_show": 5,
-        "columns_desktop": "5"
+        "columns_desktop": "5",
+        "show_view_all": true
       }
     },
     "row_3": {
       "type": "featured-collection",
       "settings": {
+        "style": "left",
+        "eyebrow": "FEATURED PRODUCTS",
         "heading": "HOTEL SUPPLIES & ORGANIZER",
+        "collection": "",
         "products_to_show": 5,
-        "columns_desktop": "5"
+        "columns_desktop": "5",
+        "show_view_all": true
       }
     },
     "row_4": {
       "type": "featured-collection",
       "settings": {
+        "style": "left",
+        "eyebrow": "FEATURED PRODUCTS",
         "heading": "SUGGESTION & DONATION BOX",
+        "collection": "",
         "products_to_show": 5,
-        "columns_desktop": "5"
+        "columns_desktop": "5",
+        "show_view_all": true
       }
     },
     "cta": {
-      "type": "cta-banner"
+      "type": "cta-banner",
+      "settings": {
+        "heading": "HAVE QUESTIONS OR NEED ASSISTANCE ?",
+        "text": "Our team is here to help with personalized support & expert advice",
+        "button_label": "Contact Us",
+        "button_link": ""
+      }
     },
     "serve": {
       "type": "who-we-serve",
@@ -208,7 +272,11 @@
         "b4",
         "b5",
         "b6"
-      ]
+      ],
+      "settings": {
+        "heading": "Who We Serve",
+        "text": "DisplaysKart products are trusted by businesses and institutions across India, including:"
+      }
     },
     "faq": {
       "type": "faq",
@@ -216,25 +284,29 @@
         "b1": {
           "type": "item",
           "settings": {
-            "question": "What is the best acrylic display stand for retail?"
+            "question": "What is the best acrylic display stand for retail?",
+            "answer": "<p>Contact our team for the right option for your space, size and quantity.</p>"
           }
         },
         "b2": {
           "type": "item",
           "settings": {
-            "question": "Where can I buy acrylic display stands wholesale in India?"
+            "question": "Where can I buy acrylic display stands wholesale in India?",
+            "answer": "<p>Contact our team for the right option for your space, size and quantity.</p>"
           }
         },
         "b3": {
           "type": "item",
           "settings": {
-            "question": "Are acrylic sign holders good for restaurants and hotels?"
+            "question": "Are acrylic sign holders good for restaurants and hotels?",
+            "answer": "<p>Contact our team for the right option for your space, size and quantity.</p>"
           }
         },
         "b4": {
           "type": "item",
           "settings": {
-            "question": "Is a transparent acrylic donation box with a lock available?"
+            "question": "Is a transparent acrylic donation box with a lock available?",
+            "answer": "<p>Contact our team for the right option for your space, size and quantity.</p>"
           }
         }
       },
@@ -243,7 +315,11 @@
         "b2",
         "b3",
         "b4"
-      ]
+      ],
+      "settings": {
+        "heading": "Buy Acrylic Display Stands Wholesale in India",
+        "text": "<p>We offer 5% discount on bulk orders and cater to wholesale buyers, event managers, corporate offices and institutional buyers across India.</p>"
+      }
     },
     "lists": {
       "type": "product-lists",
@@ -251,19 +327,25 @@
         "b1": {
           "type": "list",
           "settings": {
-            "title": "Top Rated"
+            "title": "Top Rated",
+            "collection": "",
+            "limit": 3
           }
         },
         "b2": {
           "type": "list",
           "settings": {
-            "title": "Best Seller"
+            "title": "Best Seller",
+            "collection": "",
+            "limit": 3
           }
         },
         "b3": {
           "type": "list",
           "settings": {
-            "title": "On Sale"
+            "title": "On Sale",
+            "collection": "",
+            "limit": 3
           }
         }
       },
@@ -271,7 +353,8 @@
         "b1",
         "b2",
         "b3"
-      ]
+      ],
+      "settings": {}
     }
   },
   "order": [

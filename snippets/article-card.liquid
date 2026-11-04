@@ -1,22 +1,11 @@
-{%- comment -%} Params: article, featured (bool) {%- endcomment -%}
-{%- assign tag = article.tags.first -%}
-{%- assign tag_icon = 'fa-tag' -%}
-{%- assign tag_key = tag | downcase -%}
-{%- case tag_key -%}
-  {%- when 'business' -%}{%- assign tag_icon = 'fa-store' -%}
-  {%- when 'home decor' -%}{%- assign tag_icon = 'fa-house' -%}
-  {%- when 'hospitality' -%}{%- assign tag_icon = 'fa-bell-concierge' -%}
-  {%- when 'guides' -%}{%- assign tag_icon = 'fa-book-open' -%}
-{%- endcase -%}
-<article class="bl-card{% if featured %} bl-featured{% endif %}">
+<article class="bl-card">
   <a href="{{ article.url }}" class="bl-img block">
     {%- if article.image -%}
-      <img src="{{ article.image | image_url: width: 1000 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy" width="1000" height="625">
+      <img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy" width="800" height="500">
     {%- else -%}
       {{ 'image' | placeholder_svg_tag: 'w-full h-full' }}
     {%- endif -%}
-    {%- if tag -%}<span class="bl-tag"><i class="fa-solid {{ tag_icon }}"></i>{{ tag }}</span>{%- endif -%}
-    {%- if featured -%}<span class="bl-star"><i class="fa-solid fa-star"></i> {{ 'blog.featured' | t }}</span>{%- endif -%}
+    {%- if article.tags.first -%}<span class="bl-tag"><i class="fa-solid fa-tag"></i>{{ article.tags.first }}</span>{%- endif -%}
   </a>
   <div class="bl-body">
     <div class="bl-meta">
@@ -24,7 +13,7 @@
       <span><i class="fa-regular fa-clock"></i>{{ article.content | strip_html | split: ' ' | size | divided_by: 200 | plus: 1 }} {{ 'blog.min_read' | t }}</span>
     </div>
     <h2 class="bl-title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
-    <p class="bl-ex">{{ article.excerpt_or_content | strip_html | truncate: 260 }}</p>
+    <p class="bl-ex">{{ article.excerpt_or_content | strip_html | truncate: 170 }}</p>
     <div class="bl-foot">
       <span class="bl-author"><span class="bl-av">{{ article.author | slice: 0 | upcase }}</span>{{ article.author }}</span>
       <a href="{{ article.url }}" class="bl-more">{{ 'blog.read_more' | t }} <i class="fa-solid fa-arrow-right"></i></a>
