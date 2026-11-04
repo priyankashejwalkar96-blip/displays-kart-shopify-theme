@@ -1,1 +1,106 @@
-{ "sections": { "main": { "type": "main-applications" } }, "order": ["main"] }
+{
+  "sections": {
+    "main": {
+      "type": "main-applications",
+      "blocks": {
+        "i1": {
+          "type": "industry",
+          "settings": {
+            "title": "NGO's & Government Organizations",
+            "text": "Tamper-Proof Lockable Charity Boxes, Document Frames & Signages",
+            "image_url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80",
+            "link": "/collections/ngo"
+          }
+        },
+        "i2": {
+          "type": "industry",
+          "settings": {
+            "title": "Home Interior Photo Frames",
+            "text": "Magnetic Desktop Blocks, Wall Floating Certificate Frames & Risers",
+            "image_url": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=700&q=80",
+            "link": "/collections/home-interior"
+          }
+        },
+        "i3": {
+          "type": "industry",
+          "settings": {
+            "title": "Retail Displays for shops",
+            "text": "Showcase Risers, Double-Sided Poster Stands & Price Sign Holders",
+            "image_url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=80",
+            "link": "/collections/retail-displays"
+          }
+        },
+        "v1": {
+          "type": "vertical",
+          "settings": {
+            "icon": "fa-building-columns",
+            "title": "Galleries and Museums",
+            "text": "Shatterproof standoff floating wall plaques, exhibition pedestals, and archival art display cases.",
+            "link": "/collections/all"
+          }
+        },
+        "v2": {
+          "type": "vertical",
+          "settings": {
+            "icon": "fa-briefcase",
+            "title": "Office Suppliers & Organizer",
+            "text": "Executive nameplates, desk organizers, brochure racks, and wall mount document holders.",
+            "link": "/collections/all"
+          }
+        },
+        "v3": {
+          "type": "vertical",
+          "settings": {
+            "icon": "fa-hotel",
+            "title": "Hotel Supplies & Organizer",
+            "text": "Luxury acrylic table tent menu stands, bathroom amenity caddies, and LED bottle display shelves.",
+            "link": "/collections/all"
+          }
+        },
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-solid fa-truck-fast",
+            "title": "FREE SHIPPING"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-regular fa-credit-card",
+            "title": "SECURE PAYMENT"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-solid fa-headset",
+            "title": "HELP CENTER"
+          }
+        },
+        "b4": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-solid fa-piggy-bank",
+            "title": "DISCOUNT"
+          }
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "v1",
+        "v2",
+        "v3",
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
