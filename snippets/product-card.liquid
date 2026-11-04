@@ -29,6 +29,7 @@
       {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover' }}
     {%- endif -%}
     </a>
+    <button type="button" class="dk-quick" data-quick-view data-handle="{{ product.handle }}">{{ 'products.quick_view' | t }}</button>
     <button type="button" class="dk-heart" data-wishlist-toggle data-handle="{{ product.handle }}" aria-label="{{ 'wishlist.add' | t }}"><i class="fa-regular fa-heart"></i></button>
   </div>
 
