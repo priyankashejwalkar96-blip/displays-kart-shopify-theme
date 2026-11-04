@@ -5,7 +5,7 @@
     <input type="hidden" name="type" value="article">
   </form>
 {%- endcapture -%}
-{% render 'page-hero', title: blog.title, crumb: blog.title, pill: section.settings.pill, text: section.settings.text, extra: search_form %}
+{% render 'page-hero', title: section.settings.heading, highlight: section.settings.heading_highlight, suffix: section.settings.heading_end, crumb: blog.title, pill: section.settings.pill, pill_icon: 'fa-lightbulb', text: section.settings.text, extra: search_form %}
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 pb-16 lg:pb-24 relative z-10 bl-page">
   {%- paginate blog.articles by section.settings.posts_per_page -%}
@@ -21,13 +21,35 @@
 
     {%- if blog.articles.size > 0 -%}
       <div class="bl-grid">
-        {%- for article in blog.articles -%}{% render 'article-card', article: article %}{%- endfor -%}
+        {%- for article in blog.articles -%}
+          {%- assign is_featured = false -%}
+          {%- if section.settings.show_featured and forloop.first and paginate.current_page == 1 and current_tags == blank -%}{%- assign is_featured = true -%}{%- endif -%}
+          {% render 'article-card', article: article, featured: is_featured %}
+        {%- endfor -%}
       </div>
       {% render 'pagination', paginate: paginate %}
     {%- else -%}
       <div class="text-center py-16 mt-6 bl-empty"><p class="font-bold">{{ 'blog.empty' | t }}</p></div>
     {%- endif -%}
   {%- endpaginate -%}
+
+  {%- if section.settings.show_newsletter -%}
+    <div class="bl-news">
+      <div>
+        <h3 class="font-heading font-black text-2xl sm:text-3xl">{{ section.settings.news_title }}</h3>
+        <p class="text-sm text-neutral-800/80 mt-1">{{ section.settings.news_text }}</p>
+      </div>
+      {%- form 'customer', id: 'BlogNewsletter', class: 'bl-news-form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="flex-1 px-4 py-2.5 text-sm font-semibold text-emerald-600"><i class="fa-solid fa-circle-check mr-1"></i>{{ 'blog.news_success' | t }}</p>
+        {%- else -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input type="email" name="contact[email]" placeholder="{{ 'blog.news_placeholder' | t }}" aria-label="Email address" required>
+          <button type="submit">{{ 'blog.news_button' | t }}</button>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -35,8 +57,16 @@
   "name": "Blog page",
   "settings": [
     { "type": "text", "id": "pill", "label": "Hero pill", "default": "Ideas, guides & inspiration" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The" },
+    { "type": "text", "id": "heading_highlight", "label": "Highlighted heading", "default": "Displays Kart" },
+    { "type": "text", "id": "heading_end", "label": "Heading end", "default": "journal." },
     { "type": "textarea", "id": "text", "label": "Hero text", "default": "Practical tips on acrylic displays for shops, hotels, offices and homes, written by the team that makes them." },
-    { "type": "range", "id": "posts_per_page", "label": "Articles per page", "min": 3, "max": 24, "step": 3, "default": 9 }
+    { "type": "range", "id": "posts_per_page", "label": "Articles per page", "min": 4, "max": 24, "step": 2, "default": 10 },
+    { "type": "checkbox", "id": "show_featured", "label": "Show newest article as large featured card", "default": true },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter banner", "default": true },
+    { "type": "text", "id": "news_title", "label": "Title", "default": "Get display ideas in your inbox" },
+    { "type": "text", "id": "news_text", "label": "Text", "default": "One useful email a month. No spam." }
   ]
 }
 {% endschema %}
