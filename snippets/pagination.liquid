@@ -1,0 +1,23 @@
+{%- if paginate.pages > 1 -%}
+<nav class="flex items-center justify-center gap-2 mt-10" aria-label="Pagination">
+  {%- if paginate.previous -%}
+    <a href="{{ paginate.previous.url }}" class="pg-btn" aria-label="Previous"><i class="fa-solid fa-chevron-left text-[10px]"></i></a>
+  {%- else -%}
+    <span class="pg-btn" style="opacity:.35"><i class="fa-solid fa-chevron-left text-[10px]"></i></span>
+  {%- endif -%}
+  {%- for part in paginate.parts -%}
+    {%- if part.is_link -%}
+      <a href="{{ part.url }}" class="pg-btn">{{ part.title }}</a>
+    {%- elsif part.title == paginate.current_page -%}
+      <span class="pg-btn on" aria-current="page">{{ part.title }}</span>
+    {%- else -%}
+      <span class="pg-btn" style="border:0">{{ part.title }}</span>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if paginate.next -%}
+    <a href="{{ paginate.next.url }}" class="pg-btn" aria-label="Next"><i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+  {%- else -%}
+    <span class="pg-btn" style="opacity:.35"><i class="fa-solid fa-chevron-right text-[10px]"></i></span>
+  {%- endif -%}
+</nav>
+{%- endif -%}
