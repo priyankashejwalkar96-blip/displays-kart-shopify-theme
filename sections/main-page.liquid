@@ -1,0 +1,15 @@
+{% render 'page-hero', title: page.title, pill: section.settings.pill, pill_icon: 'fa-circle-info', text: section.settings.text %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 pb-16 relative z-10">
+  <div class="in-card rte text-[15.5px] text-neutral-700 leading-[1.9]">{{ page.content }}</div>
+  <p class="text-xs text-neutral-400 mt-6">{{ 'general.last_updated' | t }}: {{ page.updated_at | date: '%B %Y' }}. <a href="{{ routes.root_url }}pages/contact" class="text-red-600 font-bold">{{ 'general.contact_us' | t }}</a></p>
+</div>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": [
+    { "type": "text", "id": "pill", "label": "Hero pill" },
+    { "type": "textarea", "id": "text", "label": "Hero text" }
+  ]
+}
+{% endschema %}

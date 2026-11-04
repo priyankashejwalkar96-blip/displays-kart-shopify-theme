@@ -1,0 +1,24 @@
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="relative bg-neutral-950 text-white rounded-2xl p-8 sm:p-12 text-center shadow-xl overflow-hidden border border-neutral-800">
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/15 rounded-full blur-3xl pointer-events-none"></div>
+    <h2 class="relative text-2xl sm:text-3xl font-black font-heading uppercase tracking-tight mb-3">{{ section.settings.heading }}</h2>
+    <p class="relative text-sm text-neutral-300 mb-6">{{ section.settings.text }}</p>
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link | default: routes.root_url | append: 'pages/contact' }}" class="relative inline-flex items-center gap-2.5 bg-[#d9534f] hover:bg-[#c9302c] active:scale-95 text-white font-extrabold px-8 py-3 rounded-lg text-xs tracking-wider uppercase transition">{{ section.settings.button_label }} <i class="fa-solid fa-arrow-right"></i></a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CTA banner",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "HAVE QUESTIONS OR NEED ASSISTANCE ?" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Our team is here to help with personalized support & expert advice" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Contact Us" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [ { "name": "CTA banner" } ]
+}
+{% endschema %}

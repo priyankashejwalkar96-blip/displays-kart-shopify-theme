@@ -1,0 +1,202 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign on_sale = false
+  if current_variant.compare_at_price > current_variant.price
+    assign on_sale = true
+    assign off = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round
+  endif
+  assign first_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+-%}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-product-section data-product-id="{{ product.id }}">
+
+  <nav class="flex flex-wrap items-center gap-2 text-xs text-neutral-500 mb-6" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}" class="hover:text-red-600">{{ 'general.home' | t }}</a><span>/</span>
+    {%- if collection -%}
+      <a href="{{ collection.url }}" class="hover:text-red-600">{{ collection.title }}</a><span>/</span>
+    {%- elsif product.collections.first -%}
+      <a href="{{ product.collections.first.url }}" class="hover:text-red-600">{{ product.collections.first.title }}</a><span>/</span>
+    {%- endif -%}
+    <span class="text-neutral-900 font-semibold line-clamp-1">{{ product.title }}</span>
+  </nav>
+
+  <div class="pd-card p-5 sm:p-8 lg:p-10">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
+
+      {%- comment -%} Gallery {%- endcomment -%}
+      <div class="lg:sticky lg:top-28 self-start">
+        <div class="pd-gallery" id="pd-zoom">
+          {%- if on_sale -%}<span class="pd-badge" data-sale-badge>-{{ off }}% OFF</span>{%- endif -%}
+          {%- if first_media -%}
+            <img id="pd-img" src="{{ first_media | image_url: width: 1200 }}" alt="{{ first_media.alt | default: product.title | escape }}" width="1200" height="1200" loading="eager">
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'w-full h-full' }}
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="flex gap-2 mt-3 overflow-x-auto pb-1" data-thumbs>
+            {%- for media in product.media -%}
+              {%- if media.media_type == 'image' -%}
+                <button type="button" data-thumb="{{ media.preview_image | image_url: width: 1200 }}" data-media-id="{{ media.id }}" class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 {% if forloop.first %}border-amber-500{% else %}border-gray-200{% endif %} hover:border-amber-500 transition" aria-label="Image {{ forloop.index }}">
+                  <img src="{{ media.preview_image | image_url: width: 160 }}" alt="" class="w-full h-full object-cover" loading="lazy" width="64" height="64">
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <p class="text-[11px] text-neutral-400 mt-3 text-center hidden lg:block"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i>{{ 'products.hover_zoom' | t }}</p>
+      </div>
+
+      {%- comment -%} Info {%- endcomment -%}
+      <div>
+        <div class="flex flex-wrap items-center gap-2">
+          {%- if current_variant.sku != blank -%}<span class="text-xs uppercase font-extrabold text-red-600 tracking-wider" data-sku>SKU: {{ current_variant.sku }}</span>{%- endif -%}
+          {%- if product.type != blank -%}<span class="pd-chip"><i class="fa-solid fa-tag"></i>{{ product.type }}</span>{%- endif -%}
+        </div>
+        <h1 class="text-2xl sm:text-[28px] font-black font-heading text-neutral-900 mt-3 leading-snug">{{ product.title }}</h1>
+
+        <div class="flex flex-wrap items-center gap-3 mt-5" data-price-wrap>
+          <span class="pd-price" data-price>{{ current_variant.price | money }}</span>
+          <span class="pd-old {% unless on_sale %}hidden{% endunless %}" data-compare>{% if on_sale %}{{ current_variant.compare_at_price | money }}{% endif %}</span>
+          <span class="pd-save {% unless on_sale %}hidden{% endunless %}" data-save>{% if on_sale %}{{ 'products.you_save' | t }} {{ current_variant.compare_at_price | minus: current_variant.price | money }}{% endif %}</span>
+        </div>
+        <p class="text-[11px] text-neutral-500 mt-1">{% if cart.taxes_included %}{{ 'products.taxes_included' | t }}{% endif %} {{ section.settings.shipping_note }}</p>
+        <p class="text-xs font-bold mt-3 {% if current_variant.available %}text-emerald-600{% else %}text-red-600{% endif %}" data-stock>
+          {%- if current_variant.available -%}<i class="fa-solid fa-circle-check mr-1"></i>{{ 'products.in_stock' | t }}{%- if section.settings.stock_note != blank %} • {{ section.settings.stock_note }}{% endif %}
+          {%- else -%}<i class="fa-solid fa-circle-xmark mr-1"></i>{{ 'products.sold_out' | t }}{%- endif -%}
+        </p>
+
+        {%- if product.metafields.custom.highlights != blank -%}
+          <ul class="pd-hl mt-6">
+            {%- for h in product.metafields.custom.highlights.value -%}<li><i class="fa-solid fa-check"></i><span>{{ h }}</span></li>{%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- form 'product', product, id: 'product-form', class: 'mt-6', data-product-form: '' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+          <script type="application/json" data-variants>{{ product.variants | json }}</script>
+
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="mb-4" data-option-index="{{ forloop.index0 }}">
+                <div class="text-xs text-neutral-500 mb-2"><b class="text-neutral-800">{{ option.name }}:</b> <span data-option-selected>{{ option.selected_value }}</span></div>
+                <div class="flex flex-wrap gap-2">
+                  {%- for value in option.values -%}
+                    <label class="cursor-pointer">
+                      <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" class="peer sr-only" {% if option.selected_value == value %}checked{% endif %}>
+                      <span class="inline-block px-4 py-2 rounded-xl border-2 border-gray-200 text-xs font-bold peer-checked:border-neutral-900 peer-checked:bg-neutral-900 peer-checked:text-white hover:border-neutral-400 transition">{{ value }}</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="pd-qty" role="group" aria-label="{{ 'products.quantity' | t }}">
+              <button type="button" data-q="-1" aria-label="Decrease">−</button>
+              <input id="pd-qty" type="number" name="quantity" min="1" max="999" value="1" aria-label="{{ 'products.quantity' | t }}">
+              <button type="button" data-q="1" aria-label="Increase">+</button>
+            </div>
+            <span class="text-sm text-neutral-600">{{ 'products.total' | t }}: <b id="pd-total" class="text-neutral-900" data-total>{{ current_variant.price | money }}</b></span>
+          </div>
+          <p id="pd-bulk" class="text-xs text-amber-700 font-semibold mt-2 hidden"><i class="fa-solid fa-boxes-stacked mr-1"></i>{{ 'products.bulk_note' | t }}</p>
+
+          <div class="flex flex-wrap gap-3 mt-6">
+            <button id="pd-add" type="submit" name="add" class="pd-btn dark" data-add-btn {% unless current_variant.available %}disabled{% endunless %}>
+              <i class="fa-solid fa-cart-plus"></i><span data-add-label data-add="{{ 'products.add_to_cart' | t }}">{% if current_variant.available %}{{ 'products.add_to_cart' | t }}{% else %}{{ 'products.sold_out' | t }}{% endif %}</span>
+            </button>
+            {%- if section.settings.show_buy_now -%}
+              <button id="pd-buy" type="submit" name="checkout" class="pd-btn red" data-buy-btn {% unless current_variant.available %}disabled{% endunless %}><i class="fa-solid fa-bolt"></i>{{ 'products.buy_now' | t }}</button>
+            {%- endif -%}
+            <button type="button" class="pd-icon-btn" data-wishlist-toggle data-handle="{{ product.handle }}" aria-label="{{ 'wishlist.add' | t }}" title="{{ 'wishlist.add' | t }}"><i class="fa-regular fa-heart"></i></button>
+          </div>
+        {%- endform -%}
+
+        {%- if section.settings.show_pincode -%}
+          <div class="mt-7">
+            <div class="text-xs font-bold text-neutral-800 uppercase tracking-wider mb-2">{{ 'products.check_delivery' | t }}</div>
+            <form id="pd-pin" class="pd-pin" data-pincode>
+              <input id="pd-pin-in" inputmode="numeric" maxlength="6" placeholder="{{ 'products.pincode_placeholder' | t }}" aria-label="Pincode">
+              <button type="submit">{{ 'products.check' | t }}</button>
+            </form>
+            <p id="pd-pin-msg" class="text-xs mt-2 font-semibold"></p>
+          </div>
+        {%- endif -%}
+
+        <div class="pd-trust mt-7">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'trust' -%}<div {{ block.shopify_attributes }}><i class="fa-solid {{ block.settings.icon }}"></i>{{ block.settings.text }}</div>{%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="flex flex-wrap gap-4 mt-6 text-xs font-bold">
+          <a href="{{ routes.root_url }}pages/contact" class="text-red-600 hover:underline"><i class="fa-regular fa-envelope mr-1.5"></i>{{ 'products.request_quote' | t }}</a>
+          <a target="_blank" rel="noopener" href="https://wa.me/?text={{ product.title | append: ' - ' | append: shop.name | append: ' ' | append: shop.url | append: product.url | url_encode }}" class="text-neutral-700 hover:text-green-600"><i class="fa-brands fa-whatsapp mr-1.5"></i>{{ 'products.share_whatsapp' | t }}</a>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Tabs {%- endcomment -%}
+    <div class="mt-12" data-tabs>
+      <div class="pd-tabs" role="tablist">
+        <button class="pd-tab on" data-tab="d" type="button">{{ 'products.description' | t }}</button>
+        <button class="pd-tab" data-tab="s" type="button">{{ 'products.specifications' | t }}</button>
+        <button class="pd-tab" data-tab="r" type="button">{{ 'products.shipping_returns' | t }}</button>
+      </div>
+      <div class="pd-pane on" id="pd-d"><div class="max-w-3xl text-[15px] text-neutral-700 leading-[1.85] rte">{{ product.description }}</div></div>
+      <div class="pd-pane" id="pd-s">
+        <table class="pd-spec max-w-3xl">
+          {%- if current_variant.sku != blank -%}<tr><th>SKU</th><td>{{ current_variant.sku }}</td></tr>{%- endif -%}
+          {%- if product.vendor != blank -%}<tr><th>{{ 'products.brand' | t }}</th><td>{{ product.vendor }}</td></tr>{%- endif -%}
+          {%- if product.type != blank -%}<tr><th>{{ 'products.type' | t }}</th><td>{{ product.type }}</td></tr>{%- endif -%}
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}<tr><th>{{ option.name }}</th><td>{{ option.values | join: ', ' }}</td></tr>{%- endfor -%}
+          {%- endunless -%}
+          {%- if current_variant.weight > 0 -%}<tr><th>{{ 'products.weight' | t }}</th><td>{{ current_variant.weight | weight_with_unit }}</td></tr>{%- endif -%}
+          {%- if product.metafields.custom.material != blank -%}<tr><th>{{ 'products.material' | t }}</th><td>{{ product.metafields.custom.material }}</td></tr>{%- endif -%}
+          {%- if product.metafields.custom.dimensions != blank -%}<tr><th>{{ 'products.dimensions' | t }}</th><td>{{ product.metafields.custom.dimensions }}</td></tr>{%- endif -%}
+        </table>
+      </div>
+      <div class="pd-pane" id="pd-r"><div class="max-w-3xl text-[15px] text-neutral-700 leading-[1.85] rte">{{ section.settings.shipping_content }}</div></div>
+    </div>
+  </div>
+
+  {%- comment -%} Related products via Shopify recommendations {%- endcomment -%}
+  <section class="mt-14" data-related data-url="{{ routes.product_recommendations_url }}?section_id=product-recommendations&product_id={{ product.id }}&limit=4&intent=related"></section>
+
+  {%- comment -%} Mobile sticky bar {%- endcomment -%}
+  <div class="pd-sticky">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:11px;color:#737373;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ product.title }}</div>
+      <div style="font-weight:900;color:#d9534f" data-price-sticky>{{ current_variant.price | money }}</div>
+    </div>
+    <button type="button" data-sticky-add class="pd-btn red" style="flex:none;min-width:0;padding:13px 22px" {% unless current_variant.available %}disabled{% endunless %}>{{ 'products.add_to_cart' | t }}</button>
+  </div>
+</div>
+
+{%- comment -%} Structured data {%- endcomment -%}
+<script type="application/ld+json">
+{{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    { "type": "text", "id": "shipping_note", "label": "Price note", "default": "Free shipping on orders above ₹1,000." },
+    { "type": "text", "id": "stock_note", "label": "In-stock note", "default": "Direct Bengaluru warehouse dispatch" },
+    { "type": "checkbox", "id": "show_buy_now", "label": "Show Buy now button", "default": true },
+    { "type": "checkbox", "id": "show_pincode", "label": "Show pincode checker", "default": true },
+    { "type": "richtext", "id": "shipping_content", "label": "Shipping & returns tab", "default": "<p><strong>Dispatch:</strong> ready stock usually ships within 1–2 working days.</p><p><strong>Delivery:</strong> typically 3–7 working days across India.</p><p><strong>Shipping cost:</strong> free on orders above ₹1,000.</p><p><strong>Damaged in transit?</strong> Send photos within 48 hours of delivery through the Contact page and we will arrange a replacement.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "trust", "name": "Trust badge", "limit": 4,
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Font Awesome icon", "default": "fa-gem" },
+        { "type": "text", "id": "text", "label": "Text", "default": "100% genuine cast acrylic" }
+      ]
+    }
+  ]
+}
+{% endschema %}

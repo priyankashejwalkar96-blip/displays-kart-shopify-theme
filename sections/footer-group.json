@@ -1,0 +1,54 @@
+{
+  "name": "Footer group",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "f1": {
+          "type": "links",
+          "settings": {
+            "title": "Shop",
+            "links": "All products | /collections/all\nSign holders | /collections/sign-holders\nStorage systems | /collections/storage-system\nHotel supplies | /collections/hotel-supplies\nDonation boxes | /collections/donation-box\nPhoto frames | /collections/photo-frames"
+          }
+        },
+        "f2": {
+          "type": "links",
+          "settings": {
+            "title": "Company",
+            "links": "About us | /pages/about\nApplications | /pages/applications\nBlog | /blogs/news\nFAQs | /pages/faq\nContact us | /pages/contact\nTrack your order | /pages/track-order"
+          }
+        },
+        "f3": {
+          "type": "links",
+          "settings": {
+            "title": "Policies",
+            "links": "Privacy policy | /policies/privacy-policy\nTerms & conditions | /policies/terms-of-service\nRefund & return policy | /policies/refund-policy\nShipping & delivery | /policies/shipping-policy"
+          }
+        },
+        "f4": {
+          "type": "contact",
+          "settings": {
+            "title": "Contact",
+            "address": "Behind Bajaj Show Room, 6th Main Road, HVR Layout, Kamakshi Palya, Bengaluru – 560079",
+            "phone": "+91 79000 54449",
+            "email_1": "sales@displayskart.com",
+            "email_2": "support@displayskart.com"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {
+        "cta_link": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

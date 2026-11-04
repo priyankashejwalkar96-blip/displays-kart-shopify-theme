@@ -1,0 +1,236 @@
+{
+  "name": "Header group",
+  "type": "header",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "m1": {
+          "type": "message",
+          "settings": {
+            "text": "Free Shipping on orders above ₹1,000"
+          }
+        },
+        "m2": {
+          "type": "message",
+          "settings": {
+            "text": "5% Discount on Bulk Orders"
+          }
+        },
+        "m3": {
+          "type": "message",
+          "settings": {
+            "text": "100% Genuine Cast Acrylic"
+          }
+        },
+        "m4": {
+          "type": "message",
+          "settings": {
+            "text": "Direct Manufacturer & Importer — Best Prices Guaranteed"
+          }
+        },
+        "m5": {
+          "type": "message",
+          "settings": {
+            "text": "Pan-India Delivery"
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4",
+        "m5"
+      ]
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "n1": {
+          "type": "nav_link",
+          "settings": {
+            "label": "HOME",
+            "url": "/",
+            "mega": "none"
+          }
+        },
+        "n2": {
+          "type": "nav_link",
+          "settings": {
+            "label": "SHOP",
+            "url": "/collections/all",
+            "mega": "shop"
+          }
+        },
+        "n3": {
+          "type": "nav_link",
+          "settings": {
+            "label": "APPLICATIONS",
+            "url": "/pages/applications",
+            "mega": "applications"
+          }
+        },
+        "n4": {
+          "type": "nav_link",
+          "settings": {
+            "label": "BLOG",
+            "url": "/blogs/news",
+            "mega": "none"
+          }
+        },
+        "n5": {
+          "type": "nav_link",
+          "settings": {
+            "label": "CONTACT US",
+            "url": "/pages/contact",
+            "mega": "none"
+          }
+        },
+        "s1": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Acrylic Sign Holders",
+            "text": "T-Shape, L-Shape & Slanted Stands",
+            "url": "/collections/sign-holders",
+            "image_url": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "s2": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Storage System",
+            "text": "Cosmetic & Multi-tier Risers",
+            "url": "/collections/storage-system",
+            "image_url": "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "s3": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Hotel supplies & organizer",
+            "text": "Napkin, Menu & Amenity Caddies",
+            "url": "/collections/hotel-supplies",
+            "image_url": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "s4": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Acrylic Donation Box",
+            "text": "Charity & Suggestion Boxes with Lock",
+            "url": "/collections/donation-box",
+            "image_url": "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "s5": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Acrylic Photo Frames",
+            "text": "Magnetic Blocks & Floating Wall Mount",
+            "url": "/collections/photo-frames",
+            "image_url": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "s6": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Featured Products",
+            "text": "High Demand Trending Acrylics",
+            "url": "/collections/featured",
+            "image_url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "s7": {
+          "type": "mega_item",
+          "settings": {
+            "group": "shop",
+            "title": "Exclusive Product",
+            "text": "Custom Luxury Standoff Displays",
+            "url": "/collections/exclusive",
+            "image_url": "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "a1": {
+          "type": "mega_item",
+          "settings": {
+            "group": "applications",
+            "title": "Office Suppliers & Organizer",
+            "text": "Desk Signs, Name Plates & Organizers",
+            "url": "/pages/applications",
+            "image_url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "a2": {
+          "type": "mega_item",
+          "settings": {
+            "group": "applications",
+            "title": "NGO's & Government Organizations",
+            "text": "Tamper-Proof Lockable Charity Boxes",
+            "url": "/pages/applications",
+            "image_url": "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "a3": {
+          "type": "mega_item",
+          "settings": {
+            "group": "applications",
+            "title": "Galleries and Museums",
+            "text": "Floating Certificate & Art Standoffs",
+            "url": "/pages/applications",
+            "image_url": "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "a4": {
+          "type": "mega_item",
+          "settings": {
+            "group": "applications",
+            "title": "Retail Displays for shops",
+            "text": "Pedestals, Price Tags & Risers",
+            "url": "/pages/applications",
+            "image_url": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=150&q=80"
+          }
+        },
+        "a5": {
+          "type": "mega_item",
+          "settings": {
+            "group": "applications",
+            "title": "Home Interior Photo Frames",
+            "text": "Modern Desktop & Wall Living Decor",
+            "url": "/pages/applications",
+            "image_url": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=150&q=80"
+          }
+        }
+      },
+      "block_order": [
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "n5",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5"
+      ]
+    }
+  },
+  "order": [
+    "announcement",
+    "header"
+  ]
+}

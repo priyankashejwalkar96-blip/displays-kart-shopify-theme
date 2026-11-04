@@ -1,0 +1,246 @@
+<header class="bg-white border-b border-gray-100 sticky top-[40px] z-40 shadow-sm" data-header>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20 gap-4 sm:gap-8">
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="flex items-center gap-1 shrink-0" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="{{ section.settings.logo_width | divided_by: section.settings.logo.aspect_ratio | round }}" style="width:{{ section.settings.logo_width }}px;height:auto;" loading="eager">
+        {%- else -%}
+          <div class="border-2 border-neutral-900 px-3 py-1 text-2xl font-black tracking-tight text-neutral-900 font-heading">
+            {{ section.settings.logo_text_1 }} <span class="bg-neutral-900 text-white px-1.5 ml-0.5">{{ section.settings.logo_text_2 }}</span>
+          </div>
+          <span class="text-[10px] text-gray-400 font-bold -mt-3.5">®</span>
+        {%- endif -%}
+      </a>
+
+      {%- comment -%} Search {%- endcomment -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="flex-1 max-w-2xl hidden md:block">
+        <div class="relative flex items-center">
+          <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search_placeholder' | t }}"
+            class="w-full bg-[#f4f4f4] border border-gray-200 rounded-full py-2.5 pl-6 pr-12 text-xs focus:outline-none focus:border-neutral-900 focus:bg-white transition">
+          <input type="hidden" name="type" value="product">
+          <button type="submit" class="absolute right-4 text-gray-500 hover:text-black" aria-label="{{ 'general.search' | t }}">
+            <i class="fa-solid fa-magnifying-glass text-sm"></i>
+          </button>
+        </div>
+      </form>
+
+      {%- comment -%} Icons {%- endcomment -%}
+      <div class="flex items-center gap-5 text-neutral-700 text-xl">
+        <a href="{{ routes.search_url }}" class="md:hidden hover:text-amber-500 transition" aria-label="{{ 'general.search' | t }}"><i class="fa-solid fa-magnifying-glass"></i></a>
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="hover:text-amber-500 transition relative" title="{{ 'customer.account' | t }}" aria-label="{{ 'customer.account' | t }}">
+            <i class="fa-regular fa-user"></i>
+            {%- if customer -%}<span class="absolute -top-0.5 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white"></span>{%- endif -%}
+          </a>
+        {%- endif -%}
+        <a href="{{ routes.root_url }}pages/wishlist" data-wishlist-link class="hover:text-amber-500 transition relative" title="{{ 'wishlist.title' | t }}" aria-label="{{ 'wishlist.title' | t }}">
+          <i class="fa-regular fa-heart"></i>
+          <span data-wishlist-count class="absolute -top-1.5 -right-2 bg-neutral-900 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+        </a>
+        <a href="{{ routes.cart_url }}" class="hover:text-amber-500 transition relative" title="{{ 'cart.title' | t }}" aria-label="{{ 'cart.title' | t }}">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span data-cart-count class="absolute -top-1.5 -right-2 bg-amber-500 text-neutral-950 text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{{ cart.item_count }}</span>
+        </a>
+        <button type="button" data-mobile-toggle class="lg:hidden hover:text-amber-500 transition" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </div>
+
+  {%- assign path = request.path -%}
+  {%- comment -%} Black navigation bar with mega menus (block driven) {%- endcomment -%}
+  <nav class="bg-neutral-900 text-white text-xs font-bold tracking-wider uppercase border-t border-neutral-800 hidden lg:block" aria-label="Primary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center gap-8 sm:gap-12 h-12 relative">
+      {%- for nav in section.blocks -%}
+        {%- if nav.type == 'nav_link' -%}
+          {%- liquid
+            assign nav_url = nav.settings.url | default: '/'
+            assign is_active = false
+            if nav_url == '/' and path == '/'
+              assign is_active = true
+            elsif nav_url != '/' and path contains nav_url
+              assign is_active = true
+            endif
+          -%}
+          {%- if nav.settings.mega != 'none' -%}
+            <div class="has-mega py-3" {{ nav.shopify_attributes }}>
+              <a href="{{ nav_url }}" class="nav-btn flex items-center gap-1 hover:text-amber-400 transition {% if is_active %}active{% endif %}">
+                {{ nav.settings.label }} <i class="fa-solid fa-angle-down text-[10px] ml-0.5"></i>
+              </a>
+              <div class="mega-menu absolute top-full left-0 w-full bg-white text-neutral-800 shadow-2xl border-t-2 border-amber-500 p-8 z-50">
+                <div class="max-w-6xl mx-auto grid grid-cols-3 gap-y-6 gap-x-10 normal-case font-normal text-left">
+                  {%- for item in section.blocks -%}
+                    {%- if item.type == 'mega_item' and item.settings.group == nav.settings.mega -%}
+                      <a href="{{ item.settings.url | default: '#' }}" class="flex items-center gap-4 group border-b border-gray-100 pb-3" {{ item.shopify_attributes }}>
+                        <div class="w-14 h-14 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 shrink-0 p-1">
+                          {%- if item.settings.image != blank -%}
+                            <img src="{{ item.settings.image | image_url: width: 150 }}" alt="{{ item.settings.title | escape }}" class="w-full h-full object-cover" loading="lazy" width="56" height="56">
+                          {%- elsif item.settings.image_url != blank -%}
+                            <img src="{{ item.settings.image_url }}" alt="{{ item.settings.title | escape }}" class="w-full h-full object-cover" loading="lazy" width="56" height="56">
+                          {%- else -%}
+                            <div class="w-full h-full flex items-center justify-center text-amber-500"><i class="fa-solid fa-cube"></i></div>
+                          {%- endif -%}
+                        </div>
+                        <div>
+                          <h4 class="font-bold text-sm text-neutral-900 group-hover:text-amber-600 transition">{{ item.settings.title }}</h4>
+                          <p class="text-[11px] text-gray-500">{{ item.settings.text }}</p>
+                        </div>
+                      </a>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+          {%- else -%}
+            <a href="{{ nav_url }}" class="nav-btn py-3 hover:text-amber-400 transition {% if is_active %}active{% endif %}" {{ nav.shopify_attributes }}>{{ nav.settings.label }}</a>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </nav>
+
+  {%- comment -%} Mobile drawer {%- endcomment -%}
+  <div data-mobile-menu class="hidden lg:hidden bg-neutral-900 text-white text-sm font-bold uppercase tracking-wider">
+    {%- for nav in section.blocks -%}
+      {%- if nav.type == 'nav_link' -%}
+        <details class="border-t border-neutral-800">
+          <summary class="px-5 py-3 flex justify-between items-center cursor-pointer">
+            {%- if nav.settings.mega == 'none' -%}<a href="{{ nav.settings.url | default: '/' }}" class="flex-1">{{ nav.settings.label }}</a>{%- else -%}<span>{{ nav.settings.label }}</span><i class="fa-solid fa-angle-down text-[10px]"></i>{%- endif -%}
+          </summary>
+          {%- if nav.settings.mega != 'none' -%}
+            {%- for item in section.blocks -%}
+              {%- if item.type == 'mega_item' and item.settings.group == nav.settings.mega -%}
+                <a href="{{ item.settings.url | default: '#' }}" class="block px-8 py-2 text-xs normal-case font-medium text-neutral-300 hover:text-amber-400">{{ item.settings.title }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </details>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image (optional)"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "default": 180,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "logo_text_1",
+      "label": "Text logo – first word",
+      "default": "Displays"
+    },
+    {
+      "type": "text",
+      "id": "logo_text_2",
+      "label": "Text logo – highlighted word",
+      "default": "Kart"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Menu link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "HOME"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "mega",
+          "label": "Dropdown",
+          "default": "none",
+          "options": [
+            {
+              "value": "none",
+              "label": "No dropdown"
+            },
+            {
+              "value": "shop",
+              "label": "Shop mega menu"
+            },
+            {
+              "value": "applications",
+              "label": "Applications mega menu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "mega_item",
+      "name": "Dropdown item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "group",
+          "label": "Show under",
+          "default": "shop",
+          "options": [
+            {
+              "value": "shop",
+              "label": "Shop mega menu"
+            },
+            {
+              "value": "applications",
+              "label": "Applications mega menu"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Acrylic Sign Holders"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "T-Shape, L-Shape & Slanted Stands"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Or image URL (used when no image is uploaded)"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

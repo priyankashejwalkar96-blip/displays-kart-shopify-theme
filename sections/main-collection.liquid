@@ -1,0 +1,130 @@
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" data-collection-page>
+
+  {%- comment -%} Breadcrumb {%- endcomment -%}
+  <nav class="flex items-center gap-1.5 text-gray-400 text-sm mb-4" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}" class="hover:text-red-600">{{ 'general.home' | t }}</a>
+    <span>/</span>
+    <span class="text-neutral-900 font-semibold">{{ collection.title }}</span>
+  </nav>
+
+  {%- if section.settings.show_header -%}
+    <div class="mb-6">
+      <h1 class="text-2xl sm:text-3xl font-black font-heading text-neutral-900 uppercase tracking-tight">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}<div class="text-sm text-gray-500 mt-2 max-w-3xl rte">{{ collection.description }}</div>{%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+
+  <form id="CollectionFilters" method="get" action="{{ collection.url }}">
+    <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-6 space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <button type="button" data-filter-toggle class="lg:hidden inline-flex items-center gap-2 border border-gray-300 rounded-full px-4 py-2 text-xs font-bold"><i class="fa-solid fa-sliders"></i> {{ 'collections.filters' | t }}</button>
+          <span class="text-xs text-gray-500 hidden sm:inline">{{ 'collections.filter_by' | t }}</span>
+
+          {%- for filter in collection.filters -%}
+            {%- if filter.type == 'price_range' -%}
+              <div class="flex items-center gap-1 text-xs">
+                <span class="text-gray-500">{{ 'collections.price' | t }}</span>
+                <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" min="0" max="{{ filter.range_max | divided_by: 100 }}" placeholder="0" class="w-20 border border-gray-300 rounded-full px-3 py-1.5 text-xs">
+                <span>–</span>
+                <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" min="0" max="{{ filter.range_max | divided_by: 100 }}" placeholder="{{ filter.range_max | divided_by: 100 }}" class="w-20 border border-gray-300 rounded-full px-3 py-1.5 text-xs">
+              </div>
+            {%- elsif filter.type == 'list' and filter.presentation != 'swatch' -%}
+              <select onchange="location.href=this.value" class="border border-gray-300 rounded-full px-3 py-1.5 text-xs bg-white" aria-label="{{ filter.label | escape }}">
+                <option value="{{ filter.url_to_remove | default: collection.url }}">{{ filter.label }}: {{ 'collections.all' | t }}</option>
+                {%- for value in filter.values -%}
+                  <option value="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}" {% if value.active %}selected{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>{{ value.label }} ({{ value.count }})</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if collection.filters.size > 0 -%}
+            <button type="submit" class="bg-neutral-900 text-white text-xs font-bold px-4 py-2 rounded-full">{{ 'collections.apply' | t }}</button>
+          {%- endif -%}
+          <span class="text-xs text-gray-500">{{ 'collections.results' | t: count: collection.products_count }}</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label for="SortBy" class="text-xs text-gray-500">{{ 'collections.sort_by' | t }}</label>
+            <select id="SortBy" name="sort_by" onchange="this.form.submit()" class="border border-gray-300 rounded-full px-3 py-1.5 text-xs bg-white">
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+          <div class="flex items-center gap-1.5 text-gray-400 text-sm" id="view-toggle">
+            <button type="button" data-view="grid" class="w-8 h-8 rounded-lg border border-gray-300 hover:border-red-500" title="Grid"><i class="fa-solid fa-table-cells-large"></i></button>
+            <button type="button" data-view="list" class="w-8 h-8 rounded-lg border border-gray-300 hover:border-red-500" title="List"><i class="fa-solid fa-list"></i></button>
+            <button type="button" data-view="compact" class="w-8 h-8 rounded-lg border border-gray-300 hover:border-red-500" title="Compact"><i class="fa-solid fa-table-cells"></i></button>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Active filter chips {%- endcomment -%}
+      {%- assign has_active = false -%}
+      {%- for filter in collection.filters -%}{%- for value in filter.active_values -%}{%- assign has_active = true -%}{%- endfor -%}{%- if filter.type == 'price_range' and filter.min_value.value != blank or filter.max_value.value != blank -%}{%- assign has_active = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_active -%}
+        <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <a href="{{ value.url_to_remove }}" class="color-chip on">{{ value.label }} <i class="fa-solid fa-xmark text-[9px]"></i></a>
+            {%- endfor -%}
+          {%- endfor -%}
+          <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="text-xs font-bold text-red-600 hover:underline"><i class="fa-solid fa-rotate-left"></i> {{ 'collections.clear_all' | t }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </form>
+
+  <div class="grid lg:grid-cols-12 gap-8">
+    {%- comment -%} Sidebar categories {%- endcomment -%}
+    <aside id="shop-sidebar" class="lg:col-span-3 hidden lg:block">
+      <div class="bg-white border border-gray-200 rounded-2xl p-5 lg:sticky lg:top-40">
+        <h3 class="font-heading font-black text-sm text-red-600 uppercase tracking-wider mb-4">{{ 'collections.browse' | t }}</h3>
+        <ul class="space-y-1 text-sm">
+          <li><a href="{{ routes.all_products_collection_url }}" class="category-link block py-1.5 {% if collection.handle == 'all' %}text-red-600 font-bold{% else %}text-neutral-700{% endif %}">{{ 'collections.all_products' | t }}</a></li>
+          {%- for link in linklists[section.settings.sidebar_menu].links -%}
+            <li><a href="{{ link.url }}" class="category-link block py-1.5 {% if link.active %}text-red-600 font-bold{% else %}text-neutral-700{% endif %}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </aside>
+
+    <div class="lg:col-span-9">
+      {%- if collection.products.size == 0 -%}
+        <div class="text-center py-16 bg-white border border-dashed border-gray-300 rounded-2xl">
+          <i class="fa-regular fa-face-frown text-3xl text-gray-300 mb-3"></i>
+          <p class="font-bold text-neutral-900">{{ 'collections.empty' | t }}</p>
+          <a href="{{ collection.url }}" class="inline-block mt-4 bg-neutral-900 text-white text-xs font-bold px-5 py-2 rounded-lg">{{ 'collections.clear_all' | t }}</a>
+        </div>
+      {%- else -%}
+        <div id="shop-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Collection page",
+  "settings": [
+    { "type": "checkbox", "id": "show_header", "label": "Show collection title & description", "default": true },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 },
+    { "type": "link_list", "id": "sidebar_menu", "label": "Sidebar category menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+<div class="max-w-md mx-auto px-4 py-12">
+  <div class="pd-card p-6 sm:p-8">
+    <div id="login">
+      <h1 class="font-heading font-black text-2xl text-neutral-900">{{ 'customer.login.title' | t }}</h1>
+      <p class="text-sm text-neutral-500 mt-1 mb-6">{{ 'customer.login.subtitle' | t }}</p>
+      {%- form 'customer_login', novalidate: 'novalidate', class: 'space-y-4' -%}
+        {%- if form.errors -%}<div class="rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm p-4" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <div class="cx-field"><input type="email" name="customer[email]" id="CustomerEmail" placeholder=" " autocomplete="email" required><label for="CustomerEmail">{{ 'forms.email' | t }}</label></div>
+        {%- if form.password_needed -%}
+          <div class="cx-field"><input type="password" name="customer[password]" id="CustomerPassword" placeholder=" " autocomplete="current-password" required><label for="CustomerPassword">{{ 'forms.password' | t }}</label></div>
+          <a href="#recover" data-toggle-recover class="text-xs font-bold text-red-600 hover:underline">{{ 'customer.login.forgot' | t }}</a>
+        {%- endif -%}
+        <button type="submit" class="cx-btn w-full" style="width:100%"><span class="cx-btn-label">{{ 'customer.login.submit' | t }}</span></button>
+      {%- endform -%}
+      <p class="text-sm text-neutral-600 mt-6 text-center">{{ 'customer.login.new' | t }} <a href="{{ routes.account_register_url }}" class="font-bold text-red-600">{{ 'customer.register.title' | t }}</a></p>
+    </div>
+
+    <div id="recover" class="hidden">
+      <h2 class="font-heading font-black text-2xl text-neutral-900">{{ 'customer.recover.title' | t }}</h2>
+      <p class="text-sm text-neutral-500 mt-1 mb-6">{{ 'customer.recover.subtitle' | t }}</p>
+      {%- form 'recover_customer_password', class: 'space-y-4' -%}
+        {%- assign recover_success = form.posted_successfully? -%}
+        <div class="cx-field"><input type="email" name="email" id="RecoverEmail" placeholder=" " required><label for="RecoverEmail">{{ 'forms.email' | t }}</label></div>
+        <button type="submit" class="cx-btn w-full" style="width:100%"><span class="cx-btn-label">{{ 'customer.recover.submit' | t }}</span></button>
+        <a href="#login" data-toggle-recover class="block text-center text-xs font-bold text-neutral-600 hover:text-red-600">{{ 'customer.recover.cancel' | t }}</a>
+      {%- endform -%}
+      {%- if recover_success -%}<p class="text-sm text-emerald-600 font-semibold mt-4">{{ 'customer.recover.success' | t }}</p>{%- endif -%}
+    </div>
+  </div>
+</div>
+{%- if recover_success -%}<script>document.getElementById('login').classList.add('hidden');document.getElementById('recover').classList.remove('hidden');</script>{%- endif -%}
+<script>
+  document.querySelectorAll('[data-toggle-recover]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var r=document.getElementById('recover'),l=document.getElementById('login');r.classList.toggle('hidden');l.classList.toggle('hidden');});});
+</script>
+{% schema %}
+{ "name": "Login", "settings": [] }
+{% endschema %}
